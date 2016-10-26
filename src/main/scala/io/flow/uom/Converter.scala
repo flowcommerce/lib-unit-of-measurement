@@ -15,7 +15,7 @@ case class Converter() {
       case UnitOfMeasurement.CubicMeter => false
       case UnitOfMeasurement.Gram => true
       case UnitOfMeasurement.Kilogram => true
-      case UnitOfMeasurement.Meter => true
+      case UnitOfMeasurement.Meter => false
       case UnitOfMeasurement.Ounce => true
       case UnitOfMeasurement.Pound => true
       case UnitOfMeasurement.UNDEFINED(_) => false

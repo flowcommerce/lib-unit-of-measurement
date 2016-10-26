@@ -24,3 +24,36 @@ Scala library to aid with conversion of units of measurement.
     case Right(grams) => println(s"$grams grams")
   }
 ```
+
+# Known Units of Mass
+
+Supports conversion among:
+
+  - gram
+  - kilogram
+  - meter
+  - ounce
+  - pound
+
+Units are as defined as by JSR 363 - see http://jscience.org/api/javax/measure/unit/SI.html and http://jscience.org/api/javax/measure/unit/NonSI.html
+
+# Parsing strings into units of measurement
+
+Library supports case insensitve parsing of strings into units of
+measurement, including singular, plural and short hand forms.
+
+Example:
+
+```
+  converter.validateUnitOfMeasurement("mm") match {
+    case Left(errors) => println(error)
+    case Right(uom) => println(s"mm maps to $uom")
+  }
+```
+
+```
+  converter.validateUnitOfMass("kg") match {
+    case Left(errors) => println(error)
+    case Right(uom) => println(s"kg maps to $uom")
+  }
+```
