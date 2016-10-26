@@ -9,7 +9,7 @@ class ConverterSpec extends FunSpec with Matchers {
 
   it("validateUnitOfMass") {
     converter.validateUnitOfMass("in") should equal(
-      (None, Seq("Invalid unit of measurement[in]. Must be one of: gram, kilogram, meter, ounce, pound"))
+      (None,List("Invalid unit of measurement[in]. Must be one of: gram, kilogram, ounce, pound"))
     )
 
     converter.validateUnitOfMass("kg") should equal(
