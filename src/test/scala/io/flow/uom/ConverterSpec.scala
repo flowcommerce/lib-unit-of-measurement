@@ -8,7 +8,7 @@ class ConverterSpec extends FunSpec with Matchers {
   val converter = Converter()
 
   it("validateUnitOfMass") {
-    converter.validateUnitOfMass("in") should equal( 
+    converter.validateUnitOfMass("in") should equal(
       (None,List("Invalid unit of measurement[in]. Must be one of: gram, kilogram, ounce, pound"))
     )
 
