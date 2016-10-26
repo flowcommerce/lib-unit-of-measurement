@@ -3,7 +3,7 @@ package io.flow.uom
 import io.flow.common.v0.models.UnitOfMeasurement
 import scala.util.{Failure, Success, Try}
 
-object Converter {
+case class Converter() {
 
   val UnitsOfMass = UnitOfMeasurement.all.filter { uom =>
     uom match {
@@ -58,14 +58,12 @@ object Converter {
   }
 
   private[this] def convertMass(amount: BigDecimal, amountUnits: UnitOfMeasurement, targetUnits: UnitOfMeasurement): Either[String, BigDecimal] = {
-    println(s"convertMass($amount, $amountUnits, $targetUnits)")
     toGrams(amount, amountUnits) match {
       case Left(error) => {
         Left(error)
       }
 
       case Right(grams) => {
-        println(s"   -- in grams: $grams - converting to $targetUnits")
         targetUnits match {
           case UnitOfMeasurement.Millimeter => Left(s"Cannot convert $targetUnits to grams")
           case UnitOfMeasurement.Centimeter => Left(s"Cannot convert $targetUnits to grams")
