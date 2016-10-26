@@ -8,7 +8,7 @@ Scala library to aid with conversion of units of measurement.
    "io.flow" %% "lib-unit-of-measurement" % "0.0.2"
 ```
 
-# Usage:
+# Usage
 
 ```
   import io.flow.common.v0.models.UnitOfMeasurement
