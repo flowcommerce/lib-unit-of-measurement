@@ -12,6 +12,7 @@ Scala library to aid with conversion of units of measurement.
 
 ```
   import io.flow.common.v0.models.UnitOfMeasurement
+
   val converter = new Converter()
 
   converter.convert(2, UnitOfMeasurement.Kilogram, UnitOfMeasurement.Gram) match {
