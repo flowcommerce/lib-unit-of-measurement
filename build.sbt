@@ -11,8 +11,8 @@ lazy val root = project
   .settings(
     libraryDependencies ++= Seq(
       "joda-time" % "joda-time" % "2.9.9",
-      "org.joda" % "joda-convert" % "1.8.2",
-      "org.scalatest" %% "scalatest" % "3.0.3" % "test"
+      "org.joda" % "joda-convert" % "1.8.3",
+      "org.scalatest" %% "scalatest" % "3.0.4" % "test"
     )
 )
 
