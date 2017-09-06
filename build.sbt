@@ -4,6 +4,8 @@ organization := "io.flow"
 
 scalaVersion in ThisBuild := "2.11.11"
 
+crossScalaVersions := Seq("2.11.11","2.12.3")
+
 version := "0.0.21"
 
 lazy val root = project
