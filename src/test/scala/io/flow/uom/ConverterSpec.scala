@@ -56,6 +56,20 @@ class ConverterSpec extends FunSpec with Matchers {
     converter.convert(1500, UnitOfMeasurement.Gram, UnitOfMeasurement.Kilogram) should be(Right(1.5))
     converter.convert(2.5, UnitOfMeasurement.Kilogram, UnitOfMeasurement.Pound) should be(Right(5.51155))
     converter.convert(2.5, UnitOfMeasurement.Ounce, UnitOfMeasurement.Gram) should be(Right(70.87375))
+    converter.convert(2, UnitOfMeasurement.Millimeter, UnitOfMeasurement.Millimeter) should be(Right(2))
+    converter.convert(2, UnitOfMeasurement.Millimeter, UnitOfMeasurement.Inch) should be(Right(.0787402))
+    converter.convert(2, UnitOfMeasurement.Inch, UnitOfMeasurement.Millimeter) should be(Right(50.8))
+    converter.convert(6, UnitOfMeasurement.Inch, UnitOfMeasurement.Foot) should be(Right(.500000016))
+    converter.convert(2, UnitOfMeasurement.Foot, UnitOfMeasurement.Inch) should be(Right(24.00001296))
+    converter.convert(1000, UnitOfMeasurement.Millimeter, UnitOfMeasurement.Foot) should be(Right(3.28084))
+    converter.convert(6, UnitOfMeasurement.Foot, UnitOfMeasurement.Millimeter) should be(Right(1828.8))
+  }
+
+  it("toMillimeters") {
+    converter.toMillimeters(2, UnitOfMeasurement.Millimeter) should be(Right(2))
+    converter.toMillimeters(2, UnitOfMeasurement.Centimeter) should be(Right(20))
+    converter.toMillimeters(2, UnitOfMeasurement.Inch) should be(Right(50.8))
+    converter.toMillimeters(2, UnitOfMeasurement.Foot) should be(Right(609.6))
   }
 
 }
