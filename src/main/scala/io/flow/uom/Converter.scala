@@ -75,7 +75,8 @@ case class Converter() {
       convertLength(amount, amountUnits, targetUnits)
     }
     else {
-      Left(s"Conversion only available for units of mass and length. $amountUnits is not a measurement of mass or length. Valid units: ${UnitsOfMass.mkString(", ")}, ${UnitsOfLength.mkString(", ")}")
+      Left(s"Conversion only available for units of mass and length. $amountUnits is not a measurement of mass or length. " +
+        s"Valid units: ${UnitsOfMass.mkString(", ")}, ${UnitsOfLength.mkString(", ")}")
     }
   }
 
