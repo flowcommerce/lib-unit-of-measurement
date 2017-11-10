@@ -117,14 +117,14 @@ case class Converter() {
           case UnitOfMeasurement.Centimeter => Right(millimeters * .1)
           case UnitOfMeasurement.Inch => Right(millimeters * .0393701)
           case UnitOfMeasurement.Foot => Right(millimeters * .00328084)
-          case UnitOfMeasurement.CubicInch => Left(s"Cannot convert $amountUnits to millimeters")
-          case UnitOfMeasurement.CubicMeter => Left(s"Cannot convert $amountUnits to millimeters")
-          case UnitOfMeasurement.Gram => Left(s"Cannot convert $amountUnits to millimeters")
-          case UnitOfMeasurement.Kilogram => Left(s"Cannot convert $amountUnits to millimeters")
-          case UnitOfMeasurement.Meter => Left(s"Cannot convert $amountUnits to millimeters")
-          case UnitOfMeasurement.Ounce => Left(s"Cannot convert $amountUnits to millimeters")
-          case UnitOfMeasurement.Pound => Left(s"Cannot convert $amountUnits to millimeters")
-          case UnitOfMeasurement.UNDEFINED(_) => Left(s"Cannot convert $amountUnits to millimeters")
+          case UnitOfMeasurement.CubicInch => Left(s"Cannot convert $targetUnits to millimeters")
+          case UnitOfMeasurement.CubicMeter => Left(s"Cannot convert $targetUnits to millimeters")
+          case UnitOfMeasurement.Gram => Left(s"Cannot convert $targetUnits to millimeters")
+          case UnitOfMeasurement.Kilogram => Left(s"Cannot convert $targetUnits to millimeters")
+          case UnitOfMeasurement.Meter => Left(s"Cannot convert $targetUnits to millimeters")
+          case UnitOfMeasurement.Ounce => Left(s"Cannot convert $targetUnits to millimeters")
+          case UnitOfMeasurement.Pound => Left(s"Cannot convert $targetUnits to millimeters")
+          case UnitOfMeasurement.UNDEFINED(_) => Left(s"Cannot convert $targetUnits to millimeters")
         }
       }
     }
