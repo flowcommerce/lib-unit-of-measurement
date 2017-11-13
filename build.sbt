@@ -6,7 +6,7 @@ scalaVersion in ThisBuild := "2.11.11"
 
 crossScalaVersions := Seq("2.11.11","2.12.3")
 
-version := "0.0.27"
+version := "0.0.28"
 
 lazy val root = project
   .in(file("."))
@@ -17,6 +17,12 @@ lazy val root = project
       "org.scalatest" %% "scalatest" % "3.0.4" % "test"
     )
 )
+    credentials += Credentials(
+      "Artifactory Realm",
+      "flow.artifactoryonline.com",
+      System.getenv("ARTIFACTORY_USERNAME"),
+      System.getenv("ARTIFACTORY_PASSWORD")
+    )
 
 publishTo := {
   val host = "https://flow.artifactoryonline.com/flow"
