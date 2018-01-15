@@ -5,60 +5,50 @@ import scala.util.{Failure, Success, Try}
 
 case class Converter() {
 
-  val UnitsOfMass = UnitOfMeasurement.all.filter { uom =>
-    uom match {
-      case UnitOfMeasurement.Millimeter => false
-      case UnitOfMeasurement.Centimeter => false
-      case UnitOfMeasurement.Inch => false
-      case UnitOfMeasurement.Foot => false
-      case UnitOfMeasurement.CubicInch => false
-      case UnitOfMeasurement.CubicMeter => false
-      case UnitOfMeasurement.Gram => true
-      case UnitOfMeasurement.Kilogram => true
-      case UnitOfMeasurement.Meter => false
-      case UnitOfMeasurement.Ounce => true
-      case UnitOfMeasurement.Pound => true
-      case UnitOfMeasurement.UNDEFINED(_) => false
-    }
+  val UnitsOfMass: List[UnitOfMeasurement] = UnitOfMeasurement.all.filter {
+    case UnitOfMeasurement.Millimeter => false
+    case UnitOfMeasurement.Centimeter => false
+    case UnitOfMeasurement.Inch => false
+    case UnitOfMeasurement.Foot => false
+    case UnitOfMeasurement.CubicInch => false
+    case UnitOfMeasurement.CubicMeter => false
+    case UnitOfMeasurement.Gram => true
+    case UnitOfMeasurement.Kilogram => true
+    case UnitOfMeasurement.Meter => false
+    case UnitOfMeasurement.Ounce => true
+    case UnitOfMeasurement.Pound => true
+    case UnitOfMeasurement.UNDEFINED(_) => false
   }
 
-  val UnitsOfLength = UnitOfMeasurement.all.filter { uom =>
-    uom match {
-      case UnitOfMeasurement.Millimeter => true
-      case UnitOfMeasurement.Centimeter => true
-      case UnitOfMeasurement.Inch => true
-      case UnitOfMeasurement.Foot => true
-      case UnitOfMeasurement.CubicInch => false
-      case UnitOfMeasurement.CubicMeter => false
-      case UnitOfMeasurement.Gram => false
-      case UnitOfMeasurement.Kilogram => false
-      case UnitOfMeasurement.Meter => false
-      case UnitOfMeasurement.Ounce => false
-      case UnitOfMeasurement.Pound => false
-      case UnitOfMeasurement.UNDEFINED(_) => false
-    }
+  val UnitsOfLength: List[UnitOfMeasurement] = UnitOfMeasurement.all.filter {
+    case UnitOfMeasurement.Millimeter => true
+    case UnitOfMeasurement.Centimeter => true
+    case UnitOfMeasurement.Inch => true
+    case UnitOfMeasurement.Foot => true
+    case UnitOfMeasurement.CubicInch => false
+    case UnitOfMeasurement.CubicMeter => false
+    case UnitOfMeasurement.Gram => false
+    case UnitOfMeasurement.Kilogram => false
+    case UnitOfMeasurement.Meter => false
+    case UnitOfMeasurement.Ounce => false
+    case UnitOfMeasurement.Pound => false
+    case UnitOfMeasurement.UNDEFINED(_) => false
   }
 
-  def validateBigDecimal(value: String): (Option[BigDecimal], Seq[String]) = {
+  def validateBigDecimal(value: String): Either[Seq[String], BigDecimal] = {
     Try {
       BigDecimal(value.trim)
     } match {
-      case Failure(_) => (None, Seq(s"Invalid number[$value]"))
-      case Success(num) => (Some(num), Nil)
+      case Failure(_) => Left(Seq(s"Invalid number[$value]"))
+      case Success(num) => Right(num)
     }
   }
 
-  def validatePositiveBigDecimal(value: String): (Option[BigDecimal], Seq[String]) = {
+  def validatePositiveBigDecimal(value: String): Either[Seq[String], BigDecimal] = {
     validateBigDecimal(value) match {
-      case (Some(num), Nil) => {
-        num > 0 match {
-          case true => (Some(num), Nil)
-          case false => (None, Seq(s"Invalid value[$value] - must be > 0"))
-        }
-      }
-      case (a, b) => {
-        (a, b)
-      }
+      case Left(errors) => Left(errors)
+      case Right(v) if v > 0 => Right(v)
+      case Right(_) => Left(Seq(s"Invalid value[$value] - must be > 0"))
     }
   }
 
@@ -70,11 +60,9 @@ case class Converter() {
   def convert(amount: BigDecimal, amountUnits: UnitOfMeasurement, targetUnits: UnitOfMeasurement): Either[String, BigDecimal] = {
     if (UnitsOfMass.contains(amountUnits)) {
       convertMass(amount, amountUnits, targetUnits)
-    }
-    else if (UnitsOfLength.contains(amountUnits)) {
+    } else if (UnitsOfLength.contains(amountUnits)) {
       convertLength(amount, amountUnits, targetUnits)
-    }
-    else {
+    } else {
       Left(s"Conversion only available for units of mass and length. $amountUnits is not a measurement of mass or length. " +
         s"Valid units: ${UnitsOfMass.mkString(", ")}, ${UnitsOfLength.mkString(", ")}")
     }
@@ -168,7 +156,7 @@ case class Converter() {
     * If uom is a valid unit of mass, returns its
     * UnitOfMeasurement. otherwise returns a validation error
     */
-  def validateUnitOfMass(uom: String): (Option[UnitOfMeasurement], Seq[String]) = {
+  def validateUnitOfMass(uom: String): Either[Seq[String], UnitOfMeasurement] = {
     validateUnitOfMeasurement(uom, valid = UnitsOfMass)
   }
 
@@ -176,11 +164,11 @@ case class Converter() {
     * If uom is a valid unit of length, returns its
     * UnitOfMeasurement. otherwise returns a validation error
     */
-  def validateUnitOfLength(uom: String): (Option[UnitOfMeasurement], Seq[String]) = {
+  def validateUnitOfLength(uom: String): Either[Seq[String], UnitOfMeasurement] = {
     validateUnitOfMeasurement(uom, valid = UnitsOfLength)
   }
 
-  def validateUnitOfMeasurement(uom: String, valid: Seq[UnitOfMeasurement] = UnitOfMeasurement.all): (Option[UnitOfMeasurement], Seq[String]) = {
+  def validateUnitOfMeasurement(uom: String, valid: Seq[UnitOfMeasurement] = UnitOfMeasurement.all): Either[Seq[String], UnitOfMeasurement] = {
     import UnitOfMeasurement._
 
     val units = uom.trim.toLowerCase match {
@@ -196,9 +184,12 @@ case class Converter() {
       case other => UnitOfMeasurement(other)
     }
 
-    valid.contains(units) match {
-      case true => (Some(units), Nil)
-      case false => (None, Seq(s"Invalid unit of measurement[${uom.trim}]. Must be one of: " + valid.mkString(", ")))
+    if (valid.contains(units)) {
+      Right(units)
+    } else {
+      Left(
+        Seq(s"Invalid unit of measurement[${uom.trim}]. Must be one of: " + valid.mkString(", "))
+      )
     }
   }
 

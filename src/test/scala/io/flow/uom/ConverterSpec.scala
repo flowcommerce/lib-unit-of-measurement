@@ -5,43 +5,86 @@ import org.scalatest.{FunSpec, Matchers}
 
 class ConverterSpec extends FunSpec with Matchers {
 
-  val converter = Converter()
+  private[this] val converter = Converter()
+
+  def rightOrErrors[T](
+    result: Either[Seq[String], T]
+  ): T = {
+    result match {
+      case Left(errors) => sys.error(s"Error: $errors")
+      case Right(v) => v
+    }
+  }
+
+  def validateError(
+    message: String,
+    result: Either[Seq[String], Any]
+  ): Unit = {
+    result match {
+      case Left(errors) => {
+        if (!errors.contains(message)) {
+          sys.error(s"Expected error[$message] but got: $errors")
+        }
+      }
+      case Right(_) => sys.error(s"Expected error[$message] but got successful result")
+    }
+  }
 
   it("validateUnitOfMass") {
-    converter.validateUnitOfMass("in") should equal(
-      (None,List("Invalid unit of measurement[in]. Must be one of: gram, kilogram, ounce, pound"))
+    validateError(
+      "Invalid unit of measurement[in]. Must be one of: gram, kilogram, ounce, pound",
+      converter.validateUnitOfMass("in")
     )
 
-    converter.validateUnitOfMass("kg") should equal(
-      (Some(UnitOfMeasurement.Kilogram), Nil)
-    )
+    rightOrErrors {
+      converter.validateUnitOfMass("kg")
+    } should equal(UnitOfMeasurement.Kilogram)
 
     converter.UnitsOfMass.foreach { uom =>
-      converter.validateUnitOfMass(uom.toString) should equal(
-        (Some(uom), Nil)
-      )
+      rightOrErrors {
+        converter.validateUnitOfMass(uom.toString)
+      } should equal(uom)
     }
   }
 
   it("validateUnitOfMeasurement") {
-    converter.validateUnitOfMeasurement("mm") should be((Some(UnitOfMeasurement.Millimeter), Nil))
-    converter.validateUnitOfMeasurement("kg") should be((Some(UnitOfMeasurement.Kilogram), Nil))
-    converter.validateUnitOfMeasurement("grams") should be((Some(UnitOfMeasurement.Gram), Nil))
+    rightOrErrors {
+      converter.validateUnitOfMeasurement("mm")
+    } should be(UnitOfMeasurement.Millimeter)
+
+    rightOrErrors {
+    converter.validateUnitOfMeasurement("kg")
+    } should be(UnitOfMeasurement.Kilogram)
+
+    rightOrErrors {
+      converter.validateUnitOfMeasurement("grams")
+    } should be(UnitOfMeasurement.Gram)
   }
   
   it("validateBigDecimal") {
-    converter.validateBigDecimal("1.234") should be((Some(1.234), Nil))
-    converter.validateBigDecimal("0") should be((Some(0), Nil))
-    converter.validateBigDecimal("1") should be((Some(1), Nil))
-    converter.validateBigDecimal("3.14159") should be((Some(3.14159), Nil))
-    converter.validateBigDecimal("-1") should be((Some(-1), Nil))
-    converter.validateBigDecimal("adslkfj") should be((None, (Seq("Invalid number[adslkfj]"))))
+    converter.validateBigDecimal("1.234") should be(Right(1.234))
+    converter.validateBigDecimal("0") should be(Right(0))
+    converter.validateBigDecimal("1") should be(Right(1))
+    converter.validateBigDecimal("3.14159") should be(Right(3.14159))
+    converter.validateBigDecimal("-1") should be(Right(-1))
+
+    validateError(
+      "Invalid number[adslkfj]",
+      converter.validateBigDecimal("adslkfj")
+    )
   }
 
   it("validatePositiveBigDecimal") {
-    converter.validatePositiveBigDecimal("1.234") should be((Some(1.234), Nil))
-    converter.validatePositiveBigDecimal("0") should be((None, (Seq("Invalid value[0] - must be > 0"))))
-    converter.validatePositiveBigDecimal("-1") should be((None, (Seq("Invalid value[-1] - must be > 0"))))
+    converter.validatePositiveBigDecimal("1.234") should be(Right(1.234))
+
+    validateError(
+      "Invalid value[0] - must be > 0",
+      converter.validatePositiveBigDecimal("0")
+    )
+    validateError(
+      "Invalid value[-1] - must be > 0",
+      converter.validatePositiveBigDecimal("-1")
+    )
   }
 
   it("toGrams") {
