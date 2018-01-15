@@ -5,13 +5,14 @@ Scala library to aid with conversion of units of measurement.
 # Installation
 
 ```
-   "io.flow" %% "lib-unit-of-measurement" % "0.0.2"
+   "io.flow" %% "lib-unit-of-measurement" % "0.0.34"
 ```
 
 # Usage
 
 ```
   import io.flow.common.v0.models.UnitOfMeasurement
+  import io.flow.uom.Converter
 
   val converter = new Converter()
 
@@ -46,14 +47,15 @@ measurement, including singular, plural and short hand forms.
 Example:
 
 ```
+  import io.flow.uom.Converter
+  val converter = Converter()
+
   converter.validateUnitOfMeasurement("mm") match {
     case Left(errors) => println(error)
     case Right(uom) => println(s"mm maps to $uom")
   }
-```
 
-```
-  converter.validateUnitOfMass("kg") match {
+converter.validateUnitOfMass("kg") match {
     case Left(errors) => println(error)
     case Right(uom) => println(s"kg maps to $uom")
   }
