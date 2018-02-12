@@ -3,37 +3,113 @@ package io.flow.uom
 import io.flow.common.v0.models.UnitOfMeasurement
 import scala.util.{Failure, Success, Try}
 
+private[uom] case class InternalUnitOfMeasurement(
+  uom: UnitOfMeasurement,
+  plural: String,
+  aliases: Seq[String],
+  isMass: Boolean,
+  isLength: Boolean
+)
+
 case class Converter() {
 
-  val UnitsOfMass: List[UnitOfMeasurement] = UnitOfMeasurement.all.filter {
-    case UnitOfMeasurement.Millimeter => false
-    case UnitOfMeasurement.Centimeter => false
-    case UnitOfMeasurement.Inch => false
-    case UnitOfMeasurement.Foot => false
-    case UnitOfMeasurement.CubicInch => false
-    case UnitOfMeasurement.CubicMeter => false
-    case UnitOfMeasurement.Gram => true
-    case UnitOfMeasurement.Kilogram => true
-    case UnitOfMeasurement.Meter => false
-    case UnitOfMeasurement.Ounce => true
-    case UnitOfMeasurement.Pound => true
-    case UnitOfMeasurement.UNDEFINED(_) => false
+  private[this] val AllInternal = UnitOfMeasurement.all map {
+    case uom@UnitOfMeasurement.Millimeter => InternalUnitOfMeasurement(
+      uom = uom,
+      plural = "millimeters",
+      aliases = Seq("mm"),
+      isMass = false,
+      isLength = true
+    )
+    case uom@UnitOfMeasurement.Centimeter => InternalUnitOfMeasurement(
+      uom = uom,
+      plural = "centimeters",
+      aliases = Seq("cm"),
+      isMass = false,
+      isLength = true
+    )
+    case uom@UnitOfMeasurement.Inch => InternalUnitOfMeasurement(
+      uom = uom,
+      plural = "inches",
+      aliases = Seq("in"),
+      isMass = false,
+      isLength = true
+    )
+    case uom@UnitOfMeasurement.Foot => InternalUnitOfMeasurement(
+      uom = uom,
+      plural = "feet",
+      aliases = Seq("ft"),
+      isMass = false,
+      isLength = true
+    )
+    case uom@UnitOfMeasurement.CubicInch => InternalUnitOfMeasurement(
+      uom = uom,
+      plural = "cubic_inches",
+      aliases = Seq("cubic inch", "cubic inches"),
+      isMass = false,
+      isLength = true
+    )
+    case uom@UnitOfMeasurement.CubicMeter => InternalUnitOfMeasurement(
+      uom = uom,
+      plural = "cubic_meters",
+      aliases = Seq("cubic meter", "cubic meters"),
+      isMass = false,
+      isLength = true
+    )
+    case uom@UnitOfMeasurement.Gram => InternalUnitOfMeasurement(
+      uom = uom,
+      plural = "grams",
+      aliases = Seq("g"),
+      isMass = true,
+      isLength = false
+    )
+    case uom@UnitOfMeasurement.Kilogram => InternalUnitOfMeasurement(
+      uom = uom,
+      plural = "kilograms",
+      aliases = Seq("kg", "kgs"),
+      isMass = true,
+      isLength = false
+    )
+    case uom@UnitOfMeasurement.Meter => InternalUnitOfMeasurement(
+      uom = uom,
+      plural = "meters",
+      aliases = Seq("m"),
+      isMass = false,
+      isLength = true
+    )
+    case uom@UnitOfMeasurement.Ounce => InternalUnitOfMeasurement(
+      uom = uom,
+      plural = "ounces",
+      aliases = Seq("oz"),
+      isMass = true,
+      isLength = false
+    )
+    case uom@UnitOfMeasurement.Pound => InternalUnitOfMeasurement(
+      uom = uom,
+      plural = "pounds",
+      aliases = Seq("lb", "lbs"),
+      isMass = true,
+      isLength = false
+    )
+    case uom@UnitOfMeasurement.UNDEFINED(name) => InternalUnitOfMeasurement(
+      uom = uom,
+      plural = s"${name}s",
+      aliases = Nil,
+      isMass = false,
+      isLength = false
+    )
   }
 
-  val UnitsOfLength: List[UnitOfMeasurement] = UnitOfMeasurement.all.filter {
-    case UnitOfMeasurement.Millimeter => true
-    case UnitOfMeasurement.Centimeter => true
-    case UnitOfMeasurement.Inch => true
-    case UnitOfMeasurement.Foot => true
-    case UnitOfMeasurement.CubicInch => false
-    case UnitOfMeasurement.CubicMeter => false
-    case UnitOfMeasurement.Gram => false
-    case UnitOfMeasurement.Kilogram => false
-    case UnitOfMeasurement.Meter => false
-    case UnitOfMeasurement.Ounce => false
-    case UnitOfMeasurement.Pound => false
-    case UnitOfMeasurement.UNDEFINED(_) => false
+  private[this] val AllInternalByName: Map[String, UnitOfMeasurement] = {
+    AllInternal.flatMap { internal =>
+      (Seq(internal.uom.toString, internal.plural) ++ internal.aliases).map { v =>
+        v.toLowerCase.trim -> internal.uom
+      }
+    }.toMap
   }
+
+  val UnitsOfMass: List[UnitOfMeasurement] = AllInternal.filter(_.isMass).map(_.uom)
+  val UnitsOfLength: List[UnitOfMeasurement] = AllInternal.filter(_.isLength).map(_.uom)
 
   def validateBigDecimal(value: String): Either[Seq[String], BigDecimal] = {
     Try {
@@ -169,28 +245,16 @@ case class Converter() {
   }
 
   def validateUnitOfMeasurement(uom: String, valid: Seq[UnitOfMeasurement] = UnitOfMeasurement.all): Either[Seq[String], UnitOfMeasurement] = {
-    import UnitOfMeasurement._
-
-    val units = uom.trim.toLowerCase match {
-      case "mm" | "millimeters" => Millimeter
-      case "cm" | "centimeters" => Centimeter
-      case "in" | "inches" => Inch
-      case "ft" | "feet" => Foot
-      case "g" | "grams" => Gram
-      case "kg" | "kilograms" => Kilogram
-      case "m" | "meters" => Meter
-      case "oz" | "ounces" => Ounce
-      case "lb" | "lbs" | "pounds" => Pound
-      case other => UnitOfMeasurement(other)
-    }
-
-    if (valid.contains(units)) {
-      Right(units)
-    } else {
-      Left(
+    fromString(uom) match {
+      case Some(units) if valid.contains(units) => Right(units)
+      case _ => Left(
         Seq(s"Invalid unit of measurement[${uom.trim}]. Must be one of: " + valid.mkString(", "))
       )
     }
+  }
+
+  def fromString(uom: String): Option[UnitOfMeasurement] = {
+    AllInternalByName.get(uom.trim.toLowerCase)
   }
 
 }
