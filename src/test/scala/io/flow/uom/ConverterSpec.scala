@@ -124,8 +124,8 @@ class ConverterSpec extends FunSpec with Matchers {
   }
 
   it("plural") {
-    converter.plural(UnitOfMeasurement.Pound) must equal("pounds")
-    converter.plural(UnitOfMeasurement.Gram) must equal("grams")
+    converter.plural(UnitOfMeasurement.Pound) should equal("pounds")
+    converter.plural(UnitOfMeasurement.Gram) should equal("grams")
   }
 
 }
