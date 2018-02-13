@@ -47,14 +47,14 @@ case class Converter() {
       plural = "cubic_inches",
       aliases = Seq("cubic inch", "cubic inches"),
       isMass = false,
-      isLength = true
+      isLength = false
     )
     case uom@UnitOfMeasurement.CubicMeter => InternalUnitOfMeasurement(
       uom = uom,
       plural = "cubic_meters",
       aliases = Seq("cubic meter", "cubic meters"),
       isMass = false,
-      isLength = true
+      isLength = false
     )
     case uom@UnitOfMeasurement.Gram => InternalUnitOfMeasurement(
       uom = uom,
