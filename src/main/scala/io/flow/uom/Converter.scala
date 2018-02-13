@@ -108,6 +108,12 @@ case class Converter() {
     }.toMap
   }
 
+  private[this] val AllInternalByUom: Map[UnitOfMeasurement, InternalUnitOfMeasurement] = {
+    AllInternal.map { internal =>
+      internal.uom -> internal
+    }.toMap
+  }
+
   val UnitsOfMass: List[UnitOfMeasurement] = AllInternal.filter(_.isMass).map(_.uom)
   val UnitsOfLength: List[UnitOfMeasurement] = AllInternal.filter(_.isLength).map(_.uom)
 
@@ -255,6 +261,10 @@ case class Converter() {
 
   def fromString(uom: String): Option[UnitOfMeasurement] = {
     AllInternalByName.get(uom.trim.toLowerCase)
+  }
+
+  def plural(uom: UnitOfMeasurement): String = {
+    AllInternalByUom.getOrElse(uom, sys.error(s"Missing unit of measurement[$uom]")).plural
   }
 
 }
