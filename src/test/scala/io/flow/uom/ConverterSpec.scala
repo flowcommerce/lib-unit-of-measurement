@@ -115,4 +115,12 @@ class ConverterSpec extends FunSpec with Matchers {
     converter.toMillimeters(2, UnitOfMeasurement.Foot) should be(Right(609.6))
   }
 
+  it("fromString") {
+    Seq("lb", "lbs", "pound", "pounds", "LB", "LBS", "POUND", "POUNDS").foreach { unit =>
+      converter.fromString(unit) should be(Some(UnitOfMeasurement.Pound))
+    }
+
+    converter.fromString("invalid pound unit") should be(None)
+  }
+
 }

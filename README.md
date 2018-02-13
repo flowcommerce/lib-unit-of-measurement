@@ -16,6 +16,8 @@ Scala library to aid with conversion of units of measurement.
 
   val converter = new Converter()
 
+  converter.fromString("lbs") // => Some(UnitOfMeasurement.Pound)
+
   converter.convert(2, UnitOfMeasurement.Kilogram, UnitOfMeasurement.Gram) match {
     case Left(errors) => println(error)
     case Right(grams) => println(s"2 KG = $grams grams")
