@@ -1,0 +1,5 @@
+---
+flow:
+  common:
+    scala_models:
+    - src/main/scala/io/generated/FlowCommonV0Models.scala
