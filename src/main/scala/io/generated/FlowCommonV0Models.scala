@@ -98,6 +98,21 @@ package io.flow.common.v0.models {
     longitude: _root_.scala.Option[String] = None
   )
 
+  /**
+   * @param name The name of the customer associated with the billing address
+   * @param streets Array for street line 1, street line 2, etc., in order
+   * @param country The ISO 3166-3 country code. Case insensitive. See
+   *        https://api.flow.io/reference/countries
+   */
+  final case class BillingAddress(
+    name: _root_.scala.Option[io.flow.common.v0.models.Name] = None,
+    streets: _root_.scala.Option[Seq[String]] = None,
+    city: _root_.scala.Option[String] = None,
+    province: _root_.scala.Option[String] = None,
+    postal: _root_.scala.Option[String] = None,
+    country: _root_.scala.Option[String] = None
+  )
+
   final case class CatalogItemReference(
     id: String,
     number: String
