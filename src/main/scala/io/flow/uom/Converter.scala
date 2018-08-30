@@ -51,7 +51,7 @@ case class Converter() {
     )
     case uom@UnitOfMeasurement.CubicInch => InternalUnitOfMeasurement(
       uom = uom,
-      singular = "cubic_inche",
+      singular = "cubic_inch",
       plural = "cubic_inches",
       aliases = Seq("cubic inch", "cubic inches"),
       isMass = false,

@@ -104,11 +104,13 @@ class ConverterSpec extends FunSpec with Matchers with Helpers {
   it("plural") {
     converter.plural(UnitOfMeasurement.Pound) should equal("pounds")
     converter.plural(UnitOfMeasurement.Gram) should equal("grams")
+    converter.plural(UnitOfMeasurement.CubicInch) should equal("cubic_inches")
   }
 
   it("singular") {
     converter.singular(UnitOfMeasurement.Pound) should equal("pound")
     converter.singular(UnitOfMeasurement.Gram) should equal("gram")
+    converter.singular(UnitOfMeasurement.CubicInch) should equal("cubic_inch")
   }
 
   it("pluralize") {
