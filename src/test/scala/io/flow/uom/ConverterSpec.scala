@@ -1,34 +1,12 @@
 package io.flow.uom
 
 import io.flow.common.v0.models.UnitOfMeasurement
+import io.flow.helpers.Helpers
 import org.scalatest.{FunSpec, Matchers}
 
-class ConverterSpec extends FunSpec with Matchers {
+class ConverterSpec extends FunSpec with Matchers with Helpers {
 
   private[this] val converter = Converter()
-
-  def rightOrErrors[T](
-    result: Either[Seq[String], T]
-  ): T = {
-    result match {
-      case Left(errors) => sys.error(s"Error: $errors")
-      case Right(v) => v
-    }
-  }
-
-  def validateError(
-    message: String,
-    result: Either[Seq[String], Any]
-  ): Unit = {
-    result match {
-      case Left(errors) => {
-        if (!errors.contains(message)) {
-          sys.error(s"Expected error[$message] but got: $errors")
-        }
-      }
-      case Right(_) => sys.error(s"Expected error[$message] but got successful result")
-    }
-  }
 
   it("validateUnitOfMass") {
     validateError(

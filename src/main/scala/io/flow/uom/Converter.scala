@@ -298,5 +298,4 @@ case class Converter() {
       display + " " + plural(uom)
     }
   }
-
 }
