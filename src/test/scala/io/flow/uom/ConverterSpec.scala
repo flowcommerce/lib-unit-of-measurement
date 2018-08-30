@@ -128,4 +128,21 @@ class ConverterSpec extends FunSpec with Matchers {
     converter.plural(UnitOfMeasurement.Gram) should equal("grams")
   }
 
+  it("singular") {
+    converter.singular(UnitOfMeasurement.Pound) should equal("pound")
+    converter.singular(UnitOfMeasurement.Gram) should equal("gram")
+  }
+
+  it("pluralize") {
+    converter.pluralize(1, UnitOfMeasurement.Pound) should equal("1 pound")
+    converter.pluralize(BigDecimal(1.00), UnitOfMeasurement.Pound) should equal("1 pound")
+    converter.pluralize(-1, UnitOfMeasurement.Pound) should equal("-1 pounds")
+    converter.pluralize(BigDecimal(-1.00), UnitOfMeasurement.Pound) should equal("-1 pounds")
+    converter.pluralize(BigDecimal(1.25), UnitOfMeasurement.Pound) should equal("1.25 pounds")
+
+    converter.pluralize(0, UnitOfMeasurement.Inch) should equal("0 inches")
+    converter.pluralize(1, UnitOfMeasurement.Inch) should equal("1 inch")
+    converter.pluralize(10, UnitOfMeasurement.Inch) should equal("10 inches")
+  }
+
 }
