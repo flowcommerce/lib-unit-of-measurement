@@ -1,10 +1,13 @@
 package io.flow.uom
 
 import io.flow.common.v0.models.UnitOfMeasurement
+
+import scala.math.BigDecimal.RoundingMode
 import scala.util.{Failure, Success, Try}
 
 private[uom] case class InternalUnitOfMeasurement(
   uom: UnitOfMeasurement,
+  singular: String,
   plural: String,
   aliases: Seq[String],
   isMass: Boolean,
@@ -16,6 +19,7 @@ case class Converter() {
   private[this] val AllInternal = UnitOfMeasurement.all map {
     case uom@UnitOfMeasurement.Millimeter => InternalUnitOfMeasurement(
       uom = uom,
+      singular = "millimeter",
       plural = "millimeters",
       aliases = Seq("mm"),
       isMass = false,
@@ -23,6 +27,7 @@ case class Converter() {
     )
     case uom@UnitOfMeasurement.Centimeter => InternalUnitOfMeasurement(
       uom = uom,
+      singular = "centimeter",
       plural = "centimeters",
       aliases = Seq("cm"),
       isMass = false,
@@ -30,6 +35,7 @@ case class Converter() {
     )
     case uom@UnitOfMeasurement.Inch => InternalUnitOfMeasurement(
       uom = uom,
+      singular = "inch",
       plural = "inches",
       aliases = Seq("in"),
       isMass = false,
@@ -37,6 +43,7 @@ case class Converter() {
     )
     case uom@UnitOfMeasurement.Foot => InternalUnitOfMeasurement(
       uom = uom,
+      singular = "foot",
       plural = "feet",
       aliases = Seq("ft"),
       isMass = false,
@@ -44,6 +51,7 @@ case class Converter() {
     )
     case uom@UnitOfMeasurement.CubicInch => InternalUnitOfMeasurement(
       uom = uom,
+      singular = "cubic_inche",
       plural = "cubic_inches",
       aliases = Seq("cubic inch", "cubic inches"),
       isMass = false,
@@ -51,6 +59,7 @@ case class Converter() {
     )
     case uom@UnitOfMeasurement.CubicMeter => InternalUnitOfMeasurement(
       uom = uom,
+      singular = "cubic_meter",
       plural = "cubic_meters",
       aliases = Seq("cubic meter", "cubic meters"),
       isMass = false,
@@ -58,6 +67,7 @@ case class Converter() {
     )
     case uom@UnitOfMeasurement.Gram => InternalUnitOfMeasurement(
       uom = uom,
+      singular = "gram",
       plural = "grams",
       aliases = Seq("g"),
       isMass = true,
@@ -65,6 +75,7 @@ case class Converter() {
     )
     case uom@UnitOfMeasurement.Kilogram => InternalUnitOfMeasurement(
       uom = uom,
+      singular = "kilogram",
       plural = "kilograms",
       aliases = Seq("kg", "kgs"),
       isMass = true,
@@ -72,6 +83,7 @@ case class Converter() {
     )
     case uom@UnitOfMeasurement.Meter => InternalUnitOfMeasurement(
       uom = uom,
+      singular = "meter",
       plural = "meters",
       aliases = Seq("m"),
       isMass = false,
@@ -79,6 +91,7 @@ case class Converter() {
     )
     case uom@UnitOfMeasurement.Ounce => InternalUnitOfMeasurement(
       uom = uom,
+      singular = "ounce",
       plural = "ounces",
       aliases = Seq("oz"),
       isMass = true,
@@ -86,6 +99,7 @@ case class Converter() {
     )
     case uom@UnitOfMeasurement.Pound => InternalUnitOfMeasurement(
       uom = uom,
+      singular = "pound",
       plural = "pounds",
       aliases = Seq("lb", "lbs"),
       isMass = true,
@@ -93,6 +107,7 @@ case class Converter() {
     )
     case uom@UnitOfMeasurement.UNDEFINED(name) => InternalUnitOfMeasurement(
       uom = uom,
+      singular = name,
       plural = s"${name}s",
       aliases = Nil,
       isMass = false,
@@ -267,4 +282,20 @@ case class Converter() {
     AllInternalByUom.getOrElse(uom, sys.error(s"Missing unit of measurement[$uom]")).plural
   }
 
+  def singular(uom: UnitOfMeasurement): String = {
+    AllInternalByUom.getOrElse(uom, sys.error(s"Missing unit of measurement[$uom]")).singular
+  }
+
+  def pluralize(value: BigDecimal, uom: UnitOfMeasurement): String = {
+    if (value == 1) {
+      "1 " + singular(uom)
+    } else {
+      val display = if (value == value.setScale(0, RoundingMode.HALF_UP)) {
+        value.toInt.toString
+      } else {
+        value.toString
+      }
+      display + " " + plural(uom)
+    }
+  }
 }

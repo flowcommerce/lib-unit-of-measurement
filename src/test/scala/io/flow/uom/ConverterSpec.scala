@@ -1,34 +1,12 @@
 package io.flow.uom
 
 import io.flow.common.v0.models.UnitOfMeasurement
+import io.flow.helpers.Helpers
 import org.scalatest.{FunSpec, Matchers}
 
-class ConverterSpec extends FunSpec with Matchers {
+class ConverterSpec extends FunSpec with Matchers with Helpers {
 
   private[this] val converter = Converter()
-
-  def rightOrErrors[T](
-    result: Either[Seq[String], T]
-  ): T = {
-    result match {
-      case Left(errors) => sys.error(s"Error: $errors")
-      case Right(v) => v
-    }
-  }
-
-  def validateError(
-    message: String,
-    result: Either[Seq[String], Any]
-  ): Unit = {
-    result match {
-      case Left(errors) => {
-        if (!errors.contains(message)) {
-          sys.error(s"Expected error[$message] but got: $errors")
-        }
-      }
-      case Right(_) => sys.error(s"Expected error[$message] but got successful result")
-    }
-  }
 
   it("validateUnitOfMass") {
     validateError(
@@ -126,6 +104,23 @@ class ConverterSpec extends FunSpec with Matchers {
   it("plural") {
     converter.plural(UnitOfMeasurement.Pound) should equal("pounds")
     converter.plural(UnitOfMeasurement.Gram) should equal("grams")
+  }
+
+  it("singular") {
+    converter.singular(UnitOfMeasurement.Pound) should equal("pound")
+    converter.singular(UnitOfMeasurement.Gram) should equal("gram")
+  }
+
+  it("pluralize") {
+    converter.pluralize(1, UnitOfMeasurement.Pound) should equal("1 pound")
+    converter.pluralize(BigDecimal(1.00), UnitOfMeasurement.Pound) should equal("1 pound")
+    converter.pluralize(-1, UnitOfMeasurement.Pound) should equal("-1 pounds")
+    converter.pluralize(BigDecimal(-1.00), UnitOfMeasurement.Pound) should equal("-1 pounds")
+    converter.pluralize(BigDecimal(1.25), UnitOfMeasurement.Pound) should equal("1.25 pounds")
+
+    converter.pluralize(0, UnitOfMeasurement.Inch) should equal("0 inches")
+    converter.pluralize(1, UnitOfMeasurement.Inch) should equal("1 inch")
+    converter.pluralize(10, UnitOfMeasurement.Inch) should equal("10 inches")
   }
 
 }
