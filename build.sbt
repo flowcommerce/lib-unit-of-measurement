@@ -2,9 +2,9 @@ name := "lib-unit-of-measurement"
 
 organization := "io.flow"
 
-scalaVersion in ThisBuild := "2.12.6"
+scalaVersion in ThisBuild := "2.12.7"
 
-crossScalaVersions := Seq("2.12.6")
+crossScalaVersions := Seq("2.12.7")
 
 version := "0.0.78"
 
