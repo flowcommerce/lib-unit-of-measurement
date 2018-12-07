@@ -18,9 +18,26 @@ class ConverterSpec extends FunSpec with Matchers with Helpers {
       converter.validateUnitOfMass("kg")
     } should equal(UnitOfMeasurement.Kilogram)
 
-    converter.UnitsOfMass.foreach { uom =>
+    InternalUnitOfMeasurement.UnitsOfMass.foreach { uom =>
       rightOrErrors {
         converter.validateUnitOfMass(uom.toString)
+      } should equal(uom)
+    }
+  }
+
+  it("validateUnitOfLength") {
+    validateError(
+      "Invalid unit of measurement[lb]. Must be one of: millimeter, centimeter, inch, foot, meter",
+      converter.validateUnitOfLength("lb")
+    )
+
+    rightOrErrors {
+      converter.validateUnitOfLength("in")
+    } should equal(UnitOfMeasurement.Inch)
+
+    InternalUnitOfMeasurement.UnitsOfLength.foreach { uom =>
+      rightOrErrors {
+        converter.validateUnitOfLength(uom.toString)
       } should equal(uom)
     }
   }
