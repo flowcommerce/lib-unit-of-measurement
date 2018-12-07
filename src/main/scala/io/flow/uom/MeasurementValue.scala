@@ -3,7 +3,6 @@ package io.flow.uom
 import io.flow.common.v0.models.UnitOfMeasurement
 import scala.util.{Failure, Success, Try}
 
-
 case class MeasurementValue(value: BigDecimal, unit: UnitOfMeasurement) {
   def label(): String = Converter().pluralize(value, unit)
 }
