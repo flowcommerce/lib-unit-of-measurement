@@ -5,7 +5,7 @@ Scala library to aid with conversion of units of measurement.
 # Installation
 
 ```
-   "io.flow" %% "lib-unit-of-measurement" % "0.0.34"
+   "io.flow" %% "lib-unit-of-measurement" % "0.0.84"
 ```
 
 # Usage
