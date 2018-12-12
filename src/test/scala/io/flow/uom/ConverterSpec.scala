@@ -18,7 +18,7 @@ class ConverterSpec extends FunSpec with Matchers with Helpers {
       converter.validateUnitOfMass("kg")
     } should equal(UnitOfMeasurement.Kilogram)
 
-    InternalUnitOfMeasurement.UnitsOfMass.foreach { uom =>
+    DefinedUnits.Mass.foreach { uom =>
       rightOrErrors {
         converter.validateUnitOfMass(uom.toString)
       } should equal(uom)
@@ -35,7 +35,7 @@ class ConverterSpec extends FunSpec with Matchers with Helpers {
       converter.validateUnitOfLength("in")
     } should equal(UnitOfMeasurement.Inch)
 
-    InternalUnitOfMeasurement.UnitsOfLength.foreach { uom =>
+    DefinedUnits.Length.foreach { uom =>
       rightOrErrors {
         converter.validateUnitOfLength(uom.toString)
       } should equal(uom)

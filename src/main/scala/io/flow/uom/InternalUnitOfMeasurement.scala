@@ -32,7 +32,7 @@ private[uom] case class InternalUnitOfLength(
 
 private[uom] object InternalUnitOfMeasurement {
 
-  private[this] val AllInternal: List[InternalUnitOfMeasurement] = UnitOfMeasurement.all map {
+  private[uom] val AllInternal: List[InternalUnitOfMeasurement] = UnitOfMeasurement.all map {
     case uom@UnitOfMeasurement.Millimeter => InternalUnitOfLength(
       uom = uom,
       singular = "millimeter",
@@ -114,16 +114,6 @@ private[uom] object InternalUnitOfMeasurement {
     AllInternal.map { internal =>
       internal.uom -> internal
     }.toMap
-  }
-
-  val UnitsOfMass: List[UnitOfMeasurement] = AllInternal.flatMap {
-    case u: InternalUnitOfMass => Some(u.uom)
-    case _ => None
-  }
-
-  val UnitsOfLength: List[UnitOfMeasurement] = AllInternal.flatMap {
-    case u: InternalUnitOfLength => Some(u.uom)
-    case _ => None
   }
 
 }
