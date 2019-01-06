@@ -131,7 +131,18 @@ case class Converter() {
     * UnitOfMeasurement. otherwise returns a validation error
     */
   def validateUnitOfMass(uom: String): Either[Seq[String], UnitOfMeasurement] = {
-    validateUnitOfMeasurement(uom, valid = DefinedUnits.Mass)
+    validateUnitOfMeasurement(uom) match {
+      case Left(errors) => Left(errors)
+      case Right(u) => validateUnitOfMass(u)(uom.trim)
+    }
+  }
+
+  def validateUnitOfMass(uom: UnitOfMeasurement)(implicit label: String = uom.toString): Either[Seq[String], UnitOfMeasurement] = {
+    if (DefinedUnits.Mass.contains(uom)) {
+      Right(uom)
+    } else {
+      Left(Seq(errorMessage("mass", label, DefinedUnits.Mass)))
+    }
   }
 
   /**
@@ -139,15 +150,24 @@ case class Converter() {
     * UnitOfMeasurement. otherwise returns a validation error
     */
   def validateUnitOfLength(uom: String): Either[Seq[String], UnitOfMeasurement] = {
-    validateUnitOfMeasurement(uom, valid = DefinedUnits.Length)
+    validateUnitOfMeasurement(uom) match {
+      case Left(errors) => Left(errors)
+      case Right(u) => validateUnitOfLength(u)(uom.trim)
+    }
   }
 
-  def validateUnitOfMeasurement(uom: String, valid: Seq[UnitOfMeasurement] = UnitOfMeasurement.all): Either[Seq[String], UnitOfMeasurement] = {
+  def validateUnitOfLength(uom: UnitOfMeasurement)(implicit label: String = uom.toString): Either[Seq[String], UnitOfMeasurement] = {
+    if (DefinedUnits.Length.contains(uom)) {
+      Right(uom)
+    } else {
+      Left(Seq(errorMessage("length", label, DefinedUnits.Length)))
+    }
+  }
+
+  def validateUnitOfMeasurement(uom: String): Either[Seq[String], UnitOfMeasurement] = {
     fromString(uom) match {
-      case Some(units) if valid.contains(units) => Right(units)
-      case _ => Left(
-        Seq(s"Invalid unit of measurement[${uom.trim}]. Must be one of: " + valid.mkString(", "))
-      )
+      case Some(units) => Right(units)
+      case _ => Left(Seq(errorMessage("measurement", uom, UnitOfMeasurement.all)))
     }
   }
 
@@ -174,5 +194,9 @@ case class Converter() {
       }
       display + " " + plural(uom)
     }
+  }
+
+  private[this] def errorMessage(typ: String, uom: String, valid: List[UnitOfMeasurement]): String = {
+    s"Invalid unit of $typ[${uom.trim}]. Must be one of: " + valid.map(_.toString).mkString(", ")
   }
 }

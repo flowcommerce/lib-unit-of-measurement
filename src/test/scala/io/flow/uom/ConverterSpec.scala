@@ -10,8 +10,13 @@ class ConverterSpec extends FunSpec with Matchers with Helpers {
 
   it("validateUnitOfMass") {
     validateError(
-      "Invalid unit of measurement[in]. Must be one of: gram, kilogram, ounce, pound",
+      "Invalid unit of mass[in]. Must be one of: gram, kilogram, ounce, pound",
       converter.validateUnitOfMass("in")
+    )
+
+    validateError(
+      "Invalid unit of mass[inch]. Must be one of: gram, kilogram, ounce, pound",
+      converter.validateUnitOfMass(UnitOfMeasurement.Inch)
     )
 
     rightOrErrors {
@@ -20,6 +25,10 @@ class ConverterSpec extends FunSpec with Matchers with Helpers {
 
     DefinedUnits.Mass.foreach { uom =>
       rightOrErrors {
+        converter.validateUnitOfMass(uom)
+      } should equal(uom)
+
+      rightOrErrors {
         converter.validateUnitOfMass(uom.toString)
       } should equal(uom)
     }
@@ -27,8 +36,13 @@ class ConverterSpec extends FunSpec with Matchers with Helpers {
 
   it("validateUnitOfLength") {
     validateError(
-      "Invalid unit of measurement[lb]. Must be one of: millimeter, centimeter, inch, foot, meter",
+      "Invalid unit of length[lb]. Must be one of: millimeter, centimeter, inch, foot, meter",
       converter.validateUnitOfLength("lb")
+    )
+
+    validateError(
+      "Invalid unit of length[pound]. Must be one of: millimeter, centimeter, inch, foot, meter",
+      converter.validateUnitOfLength(UnitOfMeasurement.Pound)
     )
 
     rightOrErrors {
@@ -36,6 +50,10 @@ class ConverterSpec extends FunSpec with Matchers with Helpers {
     } should equal(UnitOfMeasurement.Inch)
 
     DefinedUnits.Length.foreach { uom =>
+      rightOrErrors {
+        converter.validateUnitOfLength(uom)
+      } should equal(uom)
+
       rightOrErrors {
         converter.validateUnitOfLength(uom.toString)
       } should equal(uom)
