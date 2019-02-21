@@ -41,3 +41,4 @@ scalacOptions += "-P:silencer:pathFilters=src/main/scala/io/generated/.*"
 // Make sure you only exclude warnings for the project directories, i.e. make builds reproducible
 scalacOptions += s"-P:silencer:sourceRoots=${baseDirectory.value.getCanonicalPath}"
 
+version := "0.0.89"
