@@ -1,4 +1,4 @@
-name := "lib-unit-of-measurement"
+name := "lib-unit-of-measurement-javatime"
 
 organization := "io.flow"
 
@@ -12,7 +12,6 @@ lazy val root = project
   .in(file("."))
   .settings(
     libraryDependencies ++= Seq(
-      "joda-time" % "joda-time" % "2.10.1",
       "org.joda" % "joda-convert" % "2.1.2",
       "org.scalatest" %% "scalatest" % "3.0.5" % "test",
       compilerPlugin("com.github.ghik" %% "silencer-plugin" % "1.3.0"),
