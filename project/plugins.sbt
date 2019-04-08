@@ -8,3 +8,6 @@ resolvers += "Artifactory" at "https://flow.artifactoryonline.com/flow/libs-rele
 
 addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.1.4")
 
+
+resolvers += "Flow Plugins" at "https://flow.jfrog.io/flow/plugins-release/"
+addSbtPlugin("io.flow" % "sbt-flow-linter" % "0.0.6")
