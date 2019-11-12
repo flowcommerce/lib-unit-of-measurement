@@ -32,12 +32,14 @@ case class Converter() {
     * length). Otherwise, we return a Right of the converted value.
     */
   def convert(amount: BigDecimal, amountUnits: UnitOfMeasurement, targetUnits: UnitOfMeasurement): Either[String, BigDecimal] = {
-    if (DefinedUnits.Mass.contains(amountUnits)) {
+    if (amountUnits == targetUnits) {
+      Right(amount)
+    } else if (DefinedUnits.Mass.contains(amountUnits)) {
       convertMass(amount, amountUnits, targetUnits)
     } else if (DefinedUnits.Length.contains(amountUnits)) {
       convertLength(amount, amountUnits, targetUnits)
     } else {
-      Left(s"Conversion only available for units of mass and length. $amountUnits is not a measurement of mass or length. " +
+      Left(s"Conversion only available for units of mass and length. $amountUnits is not a measurement of mass nor length. " +
         s"Valid units: ${DefinedUnits.Mass.mkString(", ")}, ${DefinedUnits.Length.mkString(", ")}")
     }
   }

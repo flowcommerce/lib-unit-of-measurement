@@ -133,6 +133,13 @@ class ConverterSpec extends FunSpec with Matchers with Helpers {
     converter.convert(1, UnitOfMeasurement.Pound, UnitOfMeasurement.Ounce) should be(Right(16))
   }
 
+  it("no-op if units match") {
+    converter.convert(3, UnitOfMeasurement.Inch, UnitOfMeasurement.Inch) should be(Right(3))
+    converter.convert(3.14, UnitOfMeasurement.Inch, UnitOfMeasurement.Inch) should be(Right(3.14))
+    converter.convert(3, UnitOfMeasurement.Pound, UnitOfMeasurement.Pound) should be(Right(3))
+    converter.convert(3.14, UnitOfMeasurement.Pound, UnitOfMeasurement.Pound) should be(Right(3.14))
+  }
+
   it("toMillimeters") {
     converter.toMillimeters(2, UnitOfMeasurement.Millimeter) should be(Right(2))
     converter.toMillimeters(2, UnitOfMeasurement.Centimeter) should be(Right(20))
