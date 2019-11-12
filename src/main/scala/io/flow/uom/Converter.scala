@@ -43,52 +43,73 @@ case class Converter() {
   }
 
   private[this] def convertMass(amount: BigDecimal, amountUnits: UnitOfMeasurement, targetUnits: UnitOfMeasurement): Either[String, BigDecimal] = {
-    toGrams(amount, amountUnits) match {
-      case Left(error) => {
-        Left(error)
-      }
+    exactlyConvert(amount, amountUnits, targetUnits) match {
+      case Some(v) => Right(v)
+      case None => {
+        toGrams(amount, amountUnits) match {
+          case Left(error) => {
+            Left(error)
+          }
 
-      case Right(grams) => {
-        targetUnits match {
-          case UnitOfMeasurement.Millimeter => Left(s"Cannot convert $targetUnits to grams")
-          case UnitOfMeasurement.Centimeter => Left(s"Cannot convert $targetUnits to grams")
-          case UnitOfMeasurement.Inch => Left(s"Cannot convert $targetUnits to grams")
-          case UnitOfMeasurement.Foot => Left(s"Cannot convert $targetUnits to grams")
-          case UnitOfMeasurement.CubicInch => Left(s"Cannot convert $targetUnits to grams")
-          case UnitOfMeasurement.CubicMeter => Left(s"Cannot convert $targetUnits to grams")
-          case UnitOfMeasurement.Gram => Right(grams)
-          case UnitOfMeasurement.Kilogram => Right(grams * .001)
-          case UnitOfMeasurement.Meter => Left(s"Cannot convert $targetUnits to grams")
-          case UnitOfMeasurement.Ounce => Right(grams * 0.03527392)
-          case UnitOfMeasurement.Pound => Right(grams * 0.00220462)
-          case UnitOfMeasurement.UNDEFINED(_) => Left(s"Cannot convert $targetUnits to grams")
+          case Right(grams) => {
+            targetUnits match {
+              case UnitOfMeasurement.Millimeter => Left(s"Cannot convert $targetUnits to grams")
+              case UnitOfMeasurement.Centimeter => Left(s"Cannot convert $targetUnits to grams")
+              case UnitOfMeasurement.Inch => Left(s"Cannot convert $targetUnits to grams")
+              case UnitOfMeasurement.Foot => Left(s"Cannot convert $targetUnits to grams")
+              case UnitOfMeasurement.CubicInch => Left(s"Cannot convert $targetUnits to grams")
+              case UnitOfMeasurement.CubicMeter => Left(s"Cannot convert $targetUnits to grams")
+              case UnitOfMeasurement.Gram => Right(grams)
+              case UnitOfMeasurement.Kilogram => Right(grams * .001)
+              case UnitOfMeasurement.Meter => Left(s"Cannot convert $targetUnits to grams")
+              case UnitOfMeasurement.Ounce => Right(grams * 0.03527392)
+              case UnitOfMeasurement.Pound => Right(grams * 0.00220462)
+              case UnitOfMeasurement.UNDEFINED(_) => Left(s"Cannot convert $targetUnits to grams")
+            }
+          }
         }
       }
     }
   }
 
   private[this] def convertLength(amount: BigDecimal, amountUnits: UnitOfMeasurement, targetUnits: UnitOfMeasurement): Either[String, BigDecimal] = {
-    toMillimeters(amount, amountUnits) match {
-      case Left(error) => {
-        Left(error)
-      }
+    exactlyConvert(amount, amountUnits, targetUnits) match {
+      case Some(v) => Right(v)
+      case None => {
+        toMillimeters(amount, amountUnits) match {
+          case Left(error) => {
+            Left(error)
+          }
 
-      case Right(millimeters) => {
-        targetUnits match {
-          case UnitOfMeasurement.Millimeter => Right(millimeters)
-          case UnitOfMeasurement.Centimeter => Right(millimeters * .1)
-          case UnitOfMeasurement.Inch => Right(millimeters * .0393701)
-          case UnitOfMeasurement.Foot => Right(millimeters * .00328084)
-          case UnitOfMeasurement.CubicInch => Left(s"Cannot convert $targetUnits to millimeters")
-          case UnitOfMeasurement.CubicMeter => Left(s"Cannot convert $targetUnits to millimeters")
-          case UnitOfMeasurement.Gram => Left(s"Cannot convert $targetUnits to millimeters")
-          case UnitOfMeasurement.Kilogram => Left(s"Cannot convert $targetUnits to millimeters")
-          case UnitOfMeasurement.Meter => Left(s"Cannot convert $targetUnits to millimeters")
-          case UnitOfMeasurement.Ounce => Left(s"Cannot convert $targetUnits to millimeters")
-          case UnitOfMeasurement.Pound => Left(s"Cannot convert $targetUnits to millimeters")
-          case UnitOfMeasurement.UNDEFINED(_) => Left(s"Cannot convert $targetUnits to millimeters")
+          case Right(millimeters) => {
+            targetUnits match {
+              case UnitOfMeasurement.Millimeter => Right(millimeters)
+              case UnitOfMeasurement.Centimeter => Right(millimeters * .1)
+              case UnitOfMeasurement.Inch => Right(millimeters * .0393701)
+              case UnitOfMeasurement.Foot => Right(millimeters * .00328084)
+              case UnitOfMeasurement.CubicInch => Left(s"Cannot convert $targetUnits to millimeters")
+              case UnitOfMeasurement.CubicMeter => Left(s"Cannot convert $targetUnits to millimeters")
+              case UnitOfMeasurement.Gram => Left(s"Cannot convert $targetUnits to millimeters")
+              case UnitOfMeasurement.Kilogram => Left(s"Cannot convert $targetUnits to millimeters")
+              case UnitOfMeasurement.Meter => Left(s"Cannot convert $targetUnits to millimeters")
+              case UnitOfMeasurement.Ounce => Left(s"Cannot convert $targetUnits to millimeters")
+              case UnitOfMeasurement.Pound => Left(s"Cannot convert $targetUnits to millimeters")
+              case UnitOfMeasurement.UNDEFINED(_) => Left(s"Cannot convert $targetUnits to millimeters")
+            }
+          }
         }
       }
+    }
+  }
+
+  private[this] def exactlyConvert(amount: BigDecimal, amountUnits: UnitOfMeasurement, targetUnits: UnitOfMeasurement): Option[BigDecimal] = {
+    import UnitOfMeasurement._
+    (amountUnits, targetUnits) match {
+      case (Inch, Foot) => Some(amount / 12)
+      case (Foot, Inch) => Some(amount * 12)
+      case (Ounce, Pound) => Some(amount / 16)
+      case (Pound, Ounce) => Some(amount * 16)
+      case (_, _) => None
     }
   }
 

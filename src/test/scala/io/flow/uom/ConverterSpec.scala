@@ -73,7 +73,7 @@ class ConverterSpec extends FunSpec with Matchers with Helpers {
       converter.validateUnitOfMeasurement("grams")
     } should be(UnitOfMeasurement.Gram)
   }
-  
+
   it("validateBigDecimal") {
     converter.validateBigDecimal("1.234") should be(Right(1.234))
     converter.validateBigDecimal("0") should be(Right(0))
@@ -115,10 +115,22 @@ class ConverterSpec extends FunSpec with Matchers with Helpers {
     converter.convert(2, UnitOfMeasurement.Millimeter, UnitOfMeasurement.Millimeter) should be(Right(2))
     converter.convert(2, UnitOfMeasurement.Millimeter, UnitOfMeasurement.Inch) should be(Right(.0787402))
     converter.convert(2, UnitOfMeasurement.Inch, UnitOfMeasurement.Millimeter) should be(Right(50.8))
-    converter.convert(6, UnitOfMeasurement.Inch, UnitOfMeasurement.Foot) should be(Right(.500000016))
-    converter.convert(2, UnitOfMeasurement.Foot, UnitOfMeasurement.Inch) should be(Right(24.00001296))
     converter.convert(1000, UnitOfMeasurement.Millimeter, UnitOfMeasurement.Foot) should be(Right(3.28084))
     converter.convert(6, UnitOfMeasurement.Foot, UnitOfMeasurement.Millimeter) should be(Right(1828.8))
+  }
+
+  it("Exactly converts") {
+    converter.convert(6, UnitOfMeasurement.Inch, UnitOfMeasurement.Foot) should be(Right(.5))
+    converter.convert(12, UnitOfMeasurement.Inch, UnitOfMeasurement.Foot) should be(Right(1))
+    converter.convert(18, UnitOfMeasurement.Inch, UnitOfMeasurement.Foot) should be(Right(1.5))
+    converter.convert(24, UnitOfMeasurement.Inch, UnitOfMeasurement.Foot) should be(Right(2))
+    converter.convert(1, UnitOfMeasurement.Foot, UnitOfMeasurement.Inch) should be(Right(12))
+    converter.convert(2, UnitOfMeasurement.Foot, UnitOfMeasurement.Inch) should be(Right(24))
+
+    converter.convert(8, UnitOfMeasurement.Ounce, UnitOfMeasurement.Pound) should be(Right(.5))
+    converter.convert(16, UnitOfMeasurement.Ounce, UnitOfMeasurement.Pound) should be(Right(1))
+    converter.convert(32, UnitOfMeasurement.Ounce, UnitOfMeasurement.Pound) should be(Right(2))
+    converter.convert(1, UnitOfMeasurement.Pound, UnitOfMeasurement.Ounce) should be(Right(16))
   }
 
   it("toMillimeters") {
