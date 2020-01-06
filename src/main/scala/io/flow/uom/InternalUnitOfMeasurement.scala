@@ -33,67 +33,67 @@ private[uom] case class InternalUnitOfLength(
 private[uom] object InternalUnitOfMeasurement {
 
   private[uom] val AllInternal: List[InternalUnitOfMeasurement] = UnitOfMeasurement.all map {
-    case uom@UnitOfMeasurement.Millimeter => InternalUnitOfLength(
+    case uom: UnitOfMeasurement.Millimeter.type => InternalUnitOfLength(
       uom = uom,
       singular = "millimeter",
       plural = "millimeters",
       aliases = Seq("mm")
     )
-    case uom@UnitOfMeasurement.Centimeter => InternalUnitOfLength(
+    case uom: UnitOfMeasurement.Centimeter.type => InternalUnitOfLength(
       uom = uom,
       singular = "centimeter",
       plural = "centimeters",
       aliases = Seq("cm")
     )
-    case uom@UnitOfMeasurement.Inch => InternalUnitOfLength(
+    case uom: UnitOfMeasurement.Inch.type => InternalUnitOfLength(
       uom = uom,
       singular = "inch",
       plural = "inches",
       aliases = Seq("in")
     )
-    case uom@UnitOfMeasurement.Foot => InternalUnitOfLength(
+    case uom: UnitOfMeasurement.Foot.type => InternalUnitOfLength(
       uom = uom,
       singular = "foot",
       plural = "feet",
       aliases = Seq("ft")
     )
-    case uom@UnitOfMeasurement.CubicInch => InternalUnitOfVolume(
+    case uom: UnitOfMeasurement.CubicInch.type => InternalUnitOfVolume(
       uom = uom,
       singular = "cubic_inch",
       plural = "cubic_inches",
       aliases = Seq("cubic inch", "cubic inches")
     )
-    case uom@UnitOfMeasurement.CubicMeter => InternalUnitOfVolume(
+    case uom: UnitOfMeasurement.CubicMeter.type => InternalUnitOfVolume(
       uom = uom,
       singular = "cubic_meter",
       plural = "cubic_meters",
       aliases = Seq("cubic meter", "cubic meters")
     )
-    case uom@UnitOfMeasurement.Gram => InternalUnitOfMass(
+    case uom: UnitOfMeasurement.Gram.type => InternalUnitOfMass(
       uom = uom,
       singular = "gram",
       plural = "grams",
       aliases = Seq("g")
     )
-    case uom@UnitOfMeasurement.Kilogram => InternalUnitOfMass(
+    case uom: UnitOfMeasurement.Kilogram.type => InternalUnitOfMass(
       uom = uom,
       singular = "kilogram",
       plural = "kilograms",
       aliases = Seq("kg", "kgs")
     )
-    case uom@UnitOfMeasurement.Meter => InternalUnitOfLength(
+    case uom: UnitOfMeasurement.Meter.type => InternalUnitOfLength(
       uom = uom,
       singular = "meter",
       plural = "meters",
       aliases = Seq("m")
     )
-    case uom@UnitOfMeasurement.Ounce => InternalUnitOfMass(
+    case uom: UnitOfMeasurement.Ounce.type => InternalUnitOfMass(
       uom = uom,
       singular = "ounce",
       plural = "ounces",
       aliases = Seq("oz")
     )
-    case uom@UnitOfMeasurement.Pound => InternalUnitOfMass(
+    case uom: UnitOfMeasurement.Pound.type => InternalUnitOfMass(
       uom = uom,
       singular = "pound",
       plural = "pounds",
