@@ -2,9 +2,9 @@ name := "lib-unit-of-measurement"
 
 organization := "io.flow"
 
-scalaVersion in ThisBuild := "2.12.10"
+scalaVersion in ThisBuild := "2.13.1"
 
-crossScalaVersions := Seq("2.12.10")
+crossScalaVersions := Seq("2.12.10", "2.13.1")
 
 version := "0.0.97"
 
@@ -12,11 +12,11 @@ lazy val root = project
   .in(file("."))
   .settings(
     libraryDependencies ++= Seq(
-      "joda-time" % "joda-time" % "2.10.1",
-      "org.joda" % "joda-convert" % "2.1.2",
-      "org.scalatest" %% "scalatest" % "3.0.5" % "test",
-      compilerPlugin("com.github.ghik" %% "silencer-plugin" % "1.3.0"),
-      "com.github.ghik" %% "silencer-lib" % "1.3.0" % Provided,
+      "joda-time" % "joda-time" % "2.10.5",
+      "org.joda" % "joda-convert" % "2.2.1",
+      "org.scalatest" %% "scalatest" % "3.0.8" % Test,
+      compilerPlugin("com.github.ghik" %% "silencer-plugin" % "1.4.4" cross CrossVersion.full),
+      "com.github.ghik" %% "silencer-lib" % "1.4.4" % Provided cross CrossVersion.full,
     )
 )
     credentials += Credentials(
