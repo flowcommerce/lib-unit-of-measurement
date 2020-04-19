@@ -13,8 +13,8 @@ lazy val root = project
       "joda-time" % "joda-time" % "2.10.5",
       "org.joda" % "joda-convert" % "2.2.1",
       "org.scalatest" %% "scalatest" % "3.0.8" % Test,
-      compilerPlugin("com.github.ghik" %% "silencer-plugin" % "1.4.4" cross CrossVersion.full),
-      "com.github.ghik" %% "silencer-lib" % "1.4.4" % Provided cross CrossVersion.full,
+      compilerPlugin("com.github.ghik" %% "silencer-plugin" % "1.6.0" cross CrossVersion.full),
+      "com.github.ghik" %% "silencer-lib" % "1.6.0" % Provided cross CrossVersion.full,
     )
 )
     credentials += Credentials(
