@@ -10,7 +10,7 @@ lazy val root = project
   .in(file("."))
   .settings(
     libraryDependencies ++= Seq(
-      "joda-time" % "joda-time" % "2.10.5",
+      "joda-time" % "joda-time" % "2.10.6",
       "org.joda" % "joda-convert" % "2.2.1",
       "org.scalatest" %% "scalatest" % "3.0.8" % Test,
       compilerPlugin("com.github.ghik" %% "silencer-plugin" % "1.6.0" cross CrossVersion.full),
