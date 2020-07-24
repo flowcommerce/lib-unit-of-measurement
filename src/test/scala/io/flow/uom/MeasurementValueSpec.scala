@@ -2,9 +2,10 @@ package io.flow.uom
 
 import io.flow.common.v0.models.UnitOfMeasurement._
 import io.flow.helpers.Helpers
-import org.scalatest.{FunSpec, Matchers}
+import org.scalatest.funspec.AnyFunSpec
+import org.scalatest.matchers.should.Matchers
 
-class MeasurementValueSpec extends FunSpec with Matchers with Helpers {
+class MeasurementValueSpec extends AnyFunSpec with Matchers with Helpers {
 
   it("parse") {
     MeasurementValue.parse("") should be(None)

@@ -12,7 +12,9 @@ lazy val root = project
     libraryDependencies ++= Seq(
       "joda-time" % "joda-time" % "2.10.6",
       "org.joda" % "joda-convert" % "2.2.1",
-      "org.scalatest" %% "scalatest" % "3.0.8" % Test,
+      "org.scalatest" %% "scalatest" % "3.2.0" % Test,
+      "org.scalatest" %% "scalatest-funspec" % "3.2.0" % Test,
+      "org.scalatest" %% "scalatest-shouldmatchers" % "3.2.0" % Test,
       compilerPlugin("com.github.ghik" %% "silencer-plugin" % "1.6.0" cross CrossVersion.full),
       "com.github.ghik" %% "silencer-lib" % "1.6.0" % Provided cross CrossVersion.full,
     )
