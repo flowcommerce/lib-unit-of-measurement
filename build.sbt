@@ -4,7 +4,7 @@ organization := "io.flow"
 
 scalaVersion := "2.13.3"
 
-version := "0.1.7"
+version := "0.1.12"
 
 lazy val root = project
   .in(file("."))
@@ -43,7 +43,3 @@ flowGeneratedFiles ++= Seq(
 // Make sure you only exclude warnings for the project directories, i.e. make builds reproducible
 scalacOptions += s"-P:silencer:sourceRoots=${baseDirectory.value.getCanonicalPath}"
 
-version := "0.1.8"
-version := "0.1.9"
-version := "0.1.10"
-version := "0.1.11"
