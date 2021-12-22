@@ -44,4 +44,4 @@ publishTo := {
 
 scalacOptions ++= allScalacOptions
 
-version := "0.1.34"
+version := "0.1.35"
