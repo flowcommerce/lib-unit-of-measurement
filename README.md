@@ -14,7 +14,7 @@ Scala library to aid with conversion of units of measurement.
   import io.flow.common.v0.models.UnitOfMeasurement
   import io.flow.uom.Converter
 
-  val converter = new Converter()
+  val converter = Converter()
 
   converter.fromString("lbs") // => Some(UnitOfMeasurement.Pound)
 
