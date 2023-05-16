@@ -24,9 +24,9 @@ lazy val root = project
     libraryDependencies ++= Seq(
       "joda-time" % "joda-time" % "2.12.5",
       "org.joda" % "joda-convert" % "2.2.3",
-      "org.scalatest" %% "scalatest" % "3.2.15" % Test,
-      "org.scalatest" %% "scalatest-funspec" % "3.2.15" % Test,
-      "org.scalatest" %% "scalatest-shouldmatchers" % "3.2.15" % Test,
+      "org.scalatest" %% "scalatest" % "3.2.16" % Test,
+      "org.scalatest" %% "scalatest-funspec" % "3.2.16" % Test,
+      "org.scalatest" %% "scalatest-shouldmatchers" % "3.2.16" % Test,
     )
 )
     credentials += Credentials(
