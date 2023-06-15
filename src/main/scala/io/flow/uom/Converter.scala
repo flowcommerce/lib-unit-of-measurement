@@ -1,6 +1,5 @@
 package io.flow.uom
 
-import cats.implicits._
 import io.flow.common.v0.models.UnitOfMeasurement
 
 import scala.math.BigDecimal.RoundingMode
