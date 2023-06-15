@@ -1,5 +1,6 @@
 package io.flow.uom
 
+import cats.implicits._
 import io.flow.common.v0.models.UnitOfMeasurement
 
 import scala.math.BigDecimal.RoundingMode
@@ -54,19 +55,20 @@ case class Converter() {
           }
 
           case Right(grams) => {
+            def err = Left(s"Cannot convert $targetUnits to grams")
             targetUnits match {
-              case UnitOfMeasurement.Millimeter => Left(s"Cannot convert $targetUnits to grams")
-              case UnitOfMeasurement.Centimeter => Left(s"Cannot convert $targetUnits to grams")
-              case UnitOfMeasurement.Inch => Left(s"Cannot convert $targetUnits to grams")
-              case UnitOfMeasurement.Foot => Left(s"Cannot convert $targetUnits to grams")
-              case UnitOfMeasurement.CubicInch => Left(s"Cannot convert $targetUnits to grams")
-              case UnitOfMeasurement.CubicMeter => Left(s"Cannot convert $targetUnits to grams")
+              case UnitOfMeasurement.Millimeter => err
+              case UnitOfMeasurement.Centimeter => err
+              case UnitOfMeasurement.Inch => err
+              case UnitOfMeasurement.Foot => err
+              case UnitOfMeasurement.CubicInch => err
+              case UnitOfMeasurement.CubicMeter => err
               case UnitOfMeasurement.Gram => Right(grams)
               case UnitOfMeasurement.Kilogram => Right(grams * .001)
-              case UnitOfMeasurement.Meter => Left(s"Cannot convert $targetUnits to grams")
+              case UnitOfMeasurement.Meter => err
               case UnitOfMeasurement.Ounce => Right(grams * 0.03527392)
               case UnitOfMeasurement.Pound => Right(grams * 0.00220462)
-              case UnitOfMeasurement.UNDEFINED(_) => Left(s"Cannot convert $targetUnits to grams")
+              case UnitOfMeasurement.UNDEFINED(_) => err
             }
           }
         }
