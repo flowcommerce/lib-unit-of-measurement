@@ -4,3 +4,7 @@ code:
       version: latest
       generators:
         scala_models: src/main/scala/io/generated
+    units:
+      version: latest
+      generators:
+        scala_models: src/main/scala/io/generated
