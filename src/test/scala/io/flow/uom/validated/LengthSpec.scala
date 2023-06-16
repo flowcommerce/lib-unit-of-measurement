@@ -8,21 +8,24 @@ import org.scalatest.matchers.should.Matchers
 class LengthSpec extends AnyFunSpec with Matchers with Helpers {
 
   it("convertTo") {
-    Length(2, Kilogram).convertTo(Gram) should be(Length(2000, Gram))
-    Length(1500, Gram).convertTo(Kilogram) should be(Length(1.5, Kilogram))
-    Length(2.5, Kilogram).convertTo(Pound) should be(Length(5.51155, Pound))
-    Length(2.5, Ounce).convertTo(Gram) should be(Length(70.87375, Gram))
+    Length(2, Millimeter).convertTo(Millimeter) should be(Length(2, Millimeter))
+    Length(2, Millimeter).convertTo(Inch) should be(Length(0.0787402, Inch))
+    Length(2, Inch).convertTo(Millimeter) should be(Length(50.8, Millimeter))
+    Length(1000, Millimeter).convertTo(Foot) should be(Length(3.28084, Foot))
+    Length(6, Foot).convertTo(Millimeter) should be(Length(1828.8, Millimeter))
   }
 
   it("Exactly convertTo") {
-    Length(8, Ounce).convertTo(Pound) should be(Length(.5, Pound))
-    Length(16, Ounce).convertTo(Pound) should be(Length(1, Pound))
-    Length(32, Ounce).convertTo(Pound) should be(Length(2, Pound))
-    Length(1, Pound).convertTo(Ounce) should be(Length(16, Ounce))
+    Length(6, Inch).convertTo(Foot) should be(Length(.5, Foot))
+    Length(12, Inch).convertTo(Foot) should be(Length(1, Foot))
+    Length(18, Inch).convertTo(Foot) should be(Length(1.5, Foot))
+    Length(24, Inch).convertTo(Foot) should be(Length(2.5, Foot))
+    Length(1, Foot).convertTo(Inch) should be(Length(12, Inch))
+    Length(2, Foot).convertTo(Inch) should be(Length(24, Inch))
   }
 
   it("no-op if units match") {
-    Length(3, Pound).convertTo(Pound) should be(Length(3, Pound))
-    Length(3.14, Pound).convertTo(Pound) should be(Length(3.14, Pound))
+    Length(3, Inch).convertTo(Inch) should be(Length(3, Inch))
+    Length(3.14, Inch).convertTo(Inch) should be(Length(3.14, Inch))
   }
 }

@@ -39,9 +39,9 @@ case class Length(value: BigDecimal, unit: UnitOfLength) {
     unit match {
       case Millimeter => value
       case Centimeter => value * 10
+      case Meter => value * 1000
       case Inch => value * 25.4
       case Foot => value * 304.8
-      case Meter => value * 1000
       case UnitOfLength.UNDEFINED(other) => sys.error(s"Cannot convert $other to millimeters")
     }
   }
