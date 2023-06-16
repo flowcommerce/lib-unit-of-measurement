@@ -38,9 +38,9 @@ case class Weight(value: BigDecimal, unit: UnitOfWeight) {
     import UnitOfWeight._
     unit match {
       case Gram => value
-      case Kilogram => (value * 1000)
-      case Ounce => (value * 28.3495)
-      case Pound => (value * 453.592)
+      case Kilogram => value * 1000
+      case Ounce => value * 28.3495
+      case Pound => value * 453.592
       case UNDEFINED(_) => sys.error(s"Cannot convert $unit to grams")
     }
   }
