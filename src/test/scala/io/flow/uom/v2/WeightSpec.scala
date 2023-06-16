@@ -1,4 +1,4 @@
-package io.flow.uom.validated
+package io.flow.uom.v2
 
 import io.flow.units.v0.models.UnitOfWeight._
 import io.flow.helpers.Helpers
