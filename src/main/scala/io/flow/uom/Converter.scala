@@ -39,7 +39,7 @@ case class Converter() {
         case Some(weightUnit) => {
           UnitOfWeight.fromString(targetUnits.toString) match {
             case None => Left(s"Cannot convert $amountUnits to $targetUnits")
-            case Some(target) => Right(validated.Weight(amount, weightUnit).convertTo(target).value)
+            case Some(target) => Right(v2.Weight(amount, weightUnit).convertTo(target).value)
           }
         }
         case None => {
@@ -47,7 +47,7 @@ case class Converter() {
             case Some(weightUnit) => {
               UnitOfLength.fromString(targetUnits.toString) match {
                 case None => Left(s"Cannot convert $amountUnits to $targetUnits")
-                case Some(target) => Right(validated.Length(amount, weightUnit).convertTo(target).value)
+                case Some(target) => Right(v2.Length(amount, weightUnit).convertTo(target).value)
               }
             }
             case None => {
