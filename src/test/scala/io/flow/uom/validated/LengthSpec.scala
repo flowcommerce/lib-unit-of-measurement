@@ -9,7 +9,7 @@ class LengthSpec extends AnyFunSpec with Matchers with Helpers {
 
   it("convertTo") {
     Length(2, Millimeter).convertTo(Millimeter) should be(Length(2, Millimeter))
-    Length(2, Millimeter).convertTo(Inch) should be(Length(0.0787402, Inch))
+    Length(254, Millimeter).convertTo(Inch) should be(Length(10, Inch))
     Length(2, Inch).convertTo(Millimeter) should be(Length(50.8, Millimeter))
     Length(1000, Millimeter).convertTo(Foot) should be(Length(3.28084, Foot))
     Length(6, Foot).convertTo(Millimeter) should be(Length(1828.8, Millimeter))
@@ -19,7 +19,7 @@ class LengthSpec extends AnyFunSpec with Matchers with Helpers {
     Length(6, Inch).convertTo(Foot) should be(Length(.5, Foot))
     Length(12, Inch).convertTo(Foot) should be(Length(1, Foot))
     Length(18, Inch).convertTo(Foot) should be(Length(1.5, Foot))
-    Length(24, Inch).convertTo(Foot) should be(Length(2.5, Foot))
+    Length(24, Inch).convertTo(Foot) should be(Length(2, Foot))
     Length(1, Foot).convertTo(Inch) should be(Length(12, Inch))
     Length(2, Foot).convertTo(Inch) should be(Length(24, Inch))
   }

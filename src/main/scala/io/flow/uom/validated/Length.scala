@@ -3,19 +3,23 @@ package io.flow.uom.validated
 import io.flow.units.v0.models.UnitOfLength
 
 case class Length(value: BigDecimal, unit: UnitOfLength) {
-  def convertTo(targetUnits: UnitOfLength): Length = {
+  def convertTo(targetUnits: UnitOfLength, scale: Int = 6): Length = {
     exactlyConvertTo(targetUnits).getOrElse {
       import UnitOfLength._
 
-      def toLength(v: BigDecimal): Length = Length(v, targetUnits)
 
       val millis = toMillis
+      def toLength(factor: BigDecimal): Length = {
+        val v = (millis * factor).setScale(scale, BigDecimal.RoundingMode.HALF_UP)
+        Length(v, targetUnits)
+      }
+
       targetUnits match {
-        case Millimeter => toLength(millis)
-        case Centimeter => toLength(millis * .001)
-        case Inch => toLength(millis * 0.03527392)
-        case Foot => toLength(millis * 0.00220462)
-        case Meter => toLength(millis * 0.00220462)
+        case Millimeter => toLength(1)
+        case Centimeter => toLength(.001)
+        case Inch => toLength(1/25.4)
+        case Foot => toLength(1.0/304.8)
+        case Meter => toLength(1.0/304.8)
         case UNDEFINED(other) => sys.error(s"Invalid unit of length '$other'")
       }
     }

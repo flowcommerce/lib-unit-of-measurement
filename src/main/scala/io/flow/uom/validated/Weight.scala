@@ -3,19 +3,21 @@ package io.flow.uom.validated
 import io.flow.units.v0.models.UnitOfWeight
 
 case class Weight(value: BigDecimal, unit: UnitOfWeight) {
-  def convertTo(targetUnits: UnitOfWeight): Weight = {
+  def convertTo(targetUnits: UnitOfWeight, scale: Int = 6): Weight = {
     exactlyConvertTo(targetUnits).getOrElse {
       import UnitOfWeight._
 
-      def toWeight(v: BigDecimal): Weight = Weight(v, targetUnits)
-
       val grams = toGrams
-      println(s"$value $unit in grams is $grams. Target unit is $targetUnits")
+      def toWeight(factor: BigDecimal): Weight = {
+        val v = (grams * factor).setScale(scale, BigDecimal.RoundingMode.HALF_UP)
+        Weight(v, targetUnits)
+      }
+
       targetUnits match {
-        case Gram => toWeight(grams)
-        case Kilogram => toWeight(grams * .001)
-        case Ounce => toWeight(grams * 0.03527392)
-        case Pound => toWeight(grams * 0.00220462)
+        case Gram => toWeight(1)
+        case Kilogram => toWeight(.001)
+        case Ounce => toWeight(0.03527392)
+        case Pound => toWeight(0.00220462)
         case UNDEFINED(other) => sys.error(s"Invalid unit of weight '$other'")
       }
     }
