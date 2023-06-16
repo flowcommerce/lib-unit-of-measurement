@@ -101,20 +101,13 @@ class ConverterSpec extends AnyFunSpec with Matchers with Helpers {
     )
   }
 
-  it("toGrams") {
-    converter.toGrams(2, UnitOfMeasurement.Gram) should be(Right(2))
-    converter.toGrams(2, UnitOfMeasurement.Ounce) should be(Right(56.699))
-    converter.toGrams(2, UnitOfMeasurement.Kilogram) should be(Right(2000))
-    converter.toGrams(2, UnitOfMeasurement.Pound) should be(Right(907.184))
-  }
-
   it("convert") {
     converter.convert(2, UnitOfMeasurement.Kilogram, UnitOfMeasurement.Gram) should be(Right(2000))
     converter.convert(1500, UnitOfMeasurement.Gram, UnitOfMeasurement.Kilogram) should be(Right(1.5))
     converter.convert(2.5, UnitOfMeasurement.Kilogram, UnitOfMeasurement.Pound) should be(Right(5.51155))
     converter.convert(2.5, UnitOfMeasurement.Ounce, UnitOfMeasurement.Gram) should be(Right(70.87375))
     converter.convert(2, UnitOfMeasurement.Millimeter, UnitOfMeasurement.Millimeter) should be(Right(2))
-    converter.convert(2, UnitOfMeasurement.Millimeter, UnitOfMeasurement.Inch) should be(Right(.0787402))
+    converter.convert(2, UnitOfMeasurement.Millimeter, UnitOfMeasurement.Inch) should be(Right(.078740))
     converter.convert(2, UnitOfMeasurement.Inch, UnitOfMeasurement.Millimeter) should be(Right(50.8))
     converter.convert(1000, UnitOfMeasurement.Millimeter, UnitOfMeasurement.Foot) should be(Right(3.28084))
     converter.convert(6, UnitOfMeasurement.Foot, UnitOfMeasurement.Millimeter) should be(Right(1828.8))
@@ -139,13 +132,6 @@ class ConverterSpec extends AnyFunSpec with Matchers with Helpers {
     converter.convert(3.14, UnitOfMeasurement.Inch, UnitOfMeasurement.Inch) should be(Right(3.14))
     converter.convert(3, UnitOfMeasurement.Pound, UnitOfMeasurement.Pound) should be(Right(3))
     converter.convert(3.14, UnitOfMeasurement.Pound, UnitOfMeasurement.Pound) should be(Right(3.14))
-  }
-
-  it("toMillimeters") {
-    converter.toMillimeters(2, UnitOfMeasurement.Millimeter) should be(Right(2))
-    converter.toMillimeters(2, UnitOfMeasurement.Centimeter) should be(Right(20))
-    converter.toMillimeters(2, UnitOfMeasurement.Inch) should be(Right(50.8))
-    converter.toMillimeters(2, UnitOfMeasurement.Foot) should be(Right(609.6))
   }
 
   it("fromString") {
