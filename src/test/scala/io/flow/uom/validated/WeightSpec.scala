@@ -15,14 +15,14 @@ class WeightSpec extends AnyFunSpec with Matchers with Helpers {
   }
 
   it("Exactly convertTo") {
-    Weight(8, Ounce).convertTo(Pound) should be(.5)
-    Weight(16, Ounce).convertTo(Pound) should be(1)
-    Weight(32, Ounce).convertTo(Pound) should be(2)
-    Weight(1, Pound).convertTo(Ounce) should be(16)
+    Weight(8, Ounce).convertTo(Pound) should be(Weight(.5, Pound))
+    Weight(16, Ounce).convertTo(Pound) should be(Weight(1, Pound))
+    Weight(32, Ounce).convertTo(Pound) should be(Weight(2, Pound))
+    Weight(1, Pound).convertTo(Ounce) should be(Weight(16, Ounce))
   }
 
   it("no-op if units match") {
-    Weight(3, Pound).convertTo(Pound) should be(3)
-    Weight(3.14, Pound).convertTo(Pound) should be(3.14)
+    Weight(3, Pound).convertTo(Pound) should be(Weight(3, Pound))
+    Weight(3.14, Pound).convertTo(Pound) should be(Weight(3.14, Pound))
   }
 }

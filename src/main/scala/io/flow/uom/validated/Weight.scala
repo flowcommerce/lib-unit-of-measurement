@@ -19,15 +19,18 @@ case class Weight(value: BigDecimal, unit: UnitOfWeight) {
         case UNDEFINED(other) => sys.error(s"Invalid unit of weight '$other'")
       }
     }
-    Weight(value, targetUnits)
   }
 
   private[this] def exactlyConvertTo(targetUnit: UnitOfWeight): Option[Weight] = {
     import UnitOfWeight._
-    (unit, targetUnit) match {
-      case (Ounce, Pound) => Some(Weight(value / 16, targetUnit))
-      case (Pound, Ounce) => Some(Weight(value * 16, targetUnit))
-      case (_, _) => None
+    if (unit == targetUnit) {
+      Some(this) // no need for conversion
+    } else {
+      (unit, targetUnit) match {
+        case (Ounce, Pound) => Some(Weight(value / 16, targetUnit))
+        case (Pound, Ounce) => Some(Weight(value * 16, targetUnit))
+        case (_, _) => None
+      }
     }
   }
 
