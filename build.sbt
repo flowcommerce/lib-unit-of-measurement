@@ -24,6 +24,8 @@ lazy val root = project
     libraryDependencies ++= Seq(
       "joda-time" % "joda-time" % "2.12.5",
       "org.joda" % "joda-convert" % "2.2.3",
+      "org.typelevel" %% "cats-core" % "2.9.0",
+      "org.typelevel" %% "cats-effect" % "2.3.3",
       "org.scalatest" %% "scalatest" % "3.2.16" % Test,
       "org.scalatest" %% "scalatest-funspec" % "3.2.16" % Test,
       "org.scalatest" %% "scalatest-shouldmatchers" % "3.2.16" % Test,

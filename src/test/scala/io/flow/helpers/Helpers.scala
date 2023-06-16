@@ -1,5 +1,8 @@
 package io.flow.helpers
 
+import cats.data.{Validated, ValidatedNec}
+import cats.data.Validated.{Invalid, Valid}
+
 trait Helpers {
 
   def rightOrErrors[T](result: Either[Seq[String], T]): T = {
@@ -23,4 +26,24 @@ trait Helpers {
     }
   }
 
+  def expectValid[T](f: => Validated[_, T]): T = {
+    f match {
+      case Valid(r) => r
+      case Invalid(error) => sys.error(s"Expected valid: $error")
+    }
+  }
+
+  def expectInvalid[T](f: => Validated[T, _]): T = {
+    f match {
+      case Valid(_) => sys.error("Expected invalid")
+      case Invalid(r) => r
+    }
+  }
+
+  def expectInvalidNec[T](f: => ValidatedNec[T, _]): List[T] = {
+    f match {
+      case Valid(_) => sys.error("Expected invalid")
+      case Invalid(r) => r.toNonEmptyList.toList
+    }
+  }
 }
