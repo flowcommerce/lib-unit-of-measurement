@@ -143,7 +143,7 @@ case class Converter() {
       case UnitOfMeasurement.CubicMeter => Left(s"Cannot convert $amountUnits to millimeters")
       case UnitOfMeasurement.Gram => Left(s"Cannot convert $amountUnits to millimeters")
       case UnitOfMeasurement.Kilogram => Left(s"Cannot convert $amountUnits to millimeters")
-      case UnitOfMeasurement.Meter => Left(s"Cannot convert $amountUnits to millimeters")
+      case UnitOfMeasurement.Meter => Right(amount * 1000)
       case UnitOfMeasurement.Ounce => Left(s"Cannot convert $amountUnits to millimeters")
       case UnitOfMeasurement.Pound => Left(s"Cannot convert $amountUnits to millimeters")
       case UnitOfMeasurement.UNDEFINED(_) => Left(s"Cannot convert $amountUnits to millimeters")
