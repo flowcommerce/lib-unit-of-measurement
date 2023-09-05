@@ -44,10 +44,10 @@ case class Converter() {
         }
         case None => {
           UnitOfLength.fromString(amountUnits.toString) match {
-            case Some(weightUnit) => {
+            case Some(lengthUnit) => {
               UnitOfLength.fromString(targetUnits.toString) match {
                 case None => Left(s"Cannot convert $amountUnits to $targetUnits")
-                case Some(target) => Right(v2.Length(amount, weightUnit).convertTo(target).value)
+                case Some(target) => Right(v2.Length(amount, lengthUnit).convertTo(target).value)
               }
             }
             case None => {
