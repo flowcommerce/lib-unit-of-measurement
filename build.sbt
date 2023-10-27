@@ -28,6 +28,11 @@ lazy val root = project
       "org.scalatest" %% "scalatest" % "3.2.17" % Test,
       "org.scalatest" %% "scalatest-funspec" % "3.2.17" % Test,
       "org.scalatest" %% "scalatest-shouldmatchers" % "3.2.17" % Test,
+    ),
+    Test / javaOptions ++= Seq(
+      "--add-exports=java.base/sun.security.x509=ALL-UNNAMED",
+      "--add-opens=java.base/sun.security.ssl=ALL-UNNAMED",
+      "--add-opens=java.base/java.lang=ALL-UNNAMED"
     )
 )
     credentials += Credentials(
