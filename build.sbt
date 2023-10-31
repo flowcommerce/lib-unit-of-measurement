@@ -22,6 +22,8 @@ lazy val allScalacOptions = Seq(
 lazy val root = project
   .in(file("."))
   .settings(
+    scalafmtOnCompile := true,
+    scalacOptions ++= allScalacOptions,
     libraryDependencies ++= Seq(
       "joda-time" % "joda-time" % "2.12.5",
       "org.joda" % "joda-convert" % "2.2.3",
@@ -51,5 +53,4 @@ publishTo := {
   }
 }
 
-scalacOptions ++= allScalacOptions
 

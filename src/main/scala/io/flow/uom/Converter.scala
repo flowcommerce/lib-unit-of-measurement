@@ -26,12 +26,14 @@ case class Converter() {
     }
   }
 
-  /**
-    * Convert amount from amountUnits to targetUnits. You will get a
-    * Left if the units are not convertible (e.g mass to
+  /** Convert amount from amountUnits to targetUnits. You will get a Left if the units are not convertible (e.g mass to
     * length). Otherwise, we return a Right of the converted value.
     */
-  def convert(amount: BigDecimal, amountUnits: UnitOfMeasurement, targetUnits: UnitOfMeasurement): Either[String, BigDecimal] = {
+  def convert(
+    amount: BigDecimal,
+    amountUnits: UnitOfMeasurement,
+    targetUnits: UnitOfMeasurement
+  ): Either[String, BigDecimal] = {
     if (amountUnits == targetUnits) {
       Right(amount)
     } else {
@@ -51,8 +53,10 @@ case class Converter() {
               }
             }
             case None => {
-              Left(s"Conversion only available for units of mass and length. $amountUnits is not a measurement of mass nor length. " +
-                s"Valid units: ${DefinedUnits.Mass.mkString(", ")}, ${DefinedUnits.Length.mkString(", ")}")
+              Left(
+                s"Conversion only available for units of mass and length. $amountUnits is not a measurement of mass nor length. " +
+                  s"Valid units: ${DefinedUnits.Mass.mkString(", ")}, ${DefinedUnits.Length.mkString(", ")}"
+              )
             }
           }
         }
@@ -60,9 +64,7 @@ case class Converter() {
     }
   }
 
-  /**
-    * If uom is a valid unit of mass, returns its
-    * UnitOfMeasurement. otherwise returns a validation error
+  /** If uom is a valid unit of mass, returns its UnitOfMeasurement. otherwise returns a validation error
     */
   def validateUnitOfMass(uom: String): Either[Seq[String], UnitOfMeasurement] = {
     validateUnitOfMeasurement(uom) match {
@@ -71,7 +73,9 @@ case class Converter() {
     }
   }
 
-  def validateUnitOfMass(uom: UnitOfMeasurement)(implicit label: String = uom.toString): Either[Seq[String], UnitOfMeasurement] = {
+  def validateUnitOfMass(
+    uom: UnitOfMeasurement
+  )(implicit label: String = uom.toString): Either[Seq[String], UnitOfMeasurement] = {
     if (DefinedUnits.Mass.contains(uom)) {
       Right(uom)
     } else {
@@ -79,9 +83,7 @@ case class Converter() {
     }
   }
 
-  /**
-    * If uom is a valid unit of length, returns its
-    * UnitOfMeasurement. otherwise returns a validation error
+  /** If uom is a valid unit of length, returns its UnitOfMeasurement. otherwise returns a validation error
     */
   def validateUnitOfLength(uom: String): Either[Seq[String], UnitOfMeasurement] = {
     validateUnitOfMeasurement(uom) match {
@@ -90,7 +92,9 @@ case class Converter() {
     }
   }
 
-  def validateUnitOfLength(uom: UnitOfMeasurement)(implicit label: String = uom.toString): Either[Seq[String], UnitOfMeasurement] = {
+  def validateUnitOfLength(
+    uom: UnitOfMeasurement
+  )(implicit label: String = uom.toString): Either[Seq[String], UnitOfMeasurement] = {
     if (DefinedUnits.Length.contains(uom)) {
       Right(uom)
     } else {

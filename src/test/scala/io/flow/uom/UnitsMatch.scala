@@ -9,9 +9,12 @@ class UnitsMatch extends AnyFunSpec with Matchers {
 
   def testAll(values: Seq[String]): Unit = {
     values.foreach { unit =>
-      UnitOfMeasurement.fromString(unit).getOrElse {
-        sys.error(s"Missing unit: '$unit'")
-      }.toString shouldBe unit
+      UnitOfMeasurement
+        .fromString(unit)
+        .getOrElse {
+          sys.error(s"Missing unit: '$unit'")
+        }
+        .toString shouldBe unit
     }
   }
 
@@ -30,7 +33,9 @@ class UnitsMatch extends AnyFunSpec with Matchers {
   it("Every UnitOfMeasurement found in one of the other specific enums") {
     UnitOfMeasurement.all.filterNot { unit =>
       val v = unit.toString
-      UnitOfLength.fromString(v).isDefined || UnitOfWeight.fromString(v).isDefined || UnitOfVolume.fromString(v).isDefined
+      UnitOfLength.fromString(v).isDefined || UnitOfWeight.fromString(v).isDefined || UnitOfVolume
+        .fromString(v)
+        .isDefined
     } shouldBe Nil
   }
 
