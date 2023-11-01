@@ -67,7 +67,7 @@ class ConverterSpec extends AnyFunSpec with Matchers with Helpers {
     } should be(UnitOfMeasurement.Millimeter)
 
     rightOrErrors {
-    converter.validateUnitOfMeasurement("kg")
+      converter.validateUnitOfMeasurement("kg")
     } should be(UnitOfMeasurement.Kilogram)
 
     rightOrErrors {

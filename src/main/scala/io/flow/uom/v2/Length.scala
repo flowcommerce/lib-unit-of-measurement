@@ -7,7 +7,6 @@ case class Length(value: BigDecimal, unit: UnitOfLength) {
     exactlyConvertTo(targetUnits).getOrElse {
       import UnitOfLength._
 
-
       val millis = toMillis
       def toLength(factor: BigDecimal): Length = {
         val v = (millis * factor).setScale(scale, BigDecimal.RoundingMode.HALF_UP)
@@ -17,9 +16,9 @@ case class Length(value: BigDecimal, unit: UnitOfLength) {
       targetUnits match {
         case Millimeter => toLength(1)
         case Centimeter => toLength(.1)
-        case Inch => toLength(1/25.4)
-        case Foot => toLength(1.0/304.8)
-        case Meter => toLength(1.0/304.8)
+        case Inch => toLength(1 / 25.4)
+        case Foot => toLength(1.0 / 304.8)
+        case Meter => toLength(1.0 / 304.8)
         case UNDEFINED(other) => sys.error(s"Invalid unit of length '$other'")
       }
     }
