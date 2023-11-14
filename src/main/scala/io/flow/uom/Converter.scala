@@ -32,7 +32,7 @@ case class Converter() {
   def convert(
     amount: BigDecimal,
     amountUnits: UnitOfMeasurement,
-    targetUnits: UnitOfMeasurement
+    targetUnits: UnitOfMeasurement,
   ): Either[String, BigDecimal] = {
     if (amountUnits == targetUnits) {
       Right(amount)
@@ -55,7 +55,7 @@ case class Converter() {
             case None => {
               Left(
                 s"Conversion only available for units of mass and length. $amountUnits is not a measurement of mass nor length. " +
-                  s"Valid units: ${DefinedUnits.Mass.mkString(", ")}, ${DefinedUnits.Length.mkString(", ")}"
+                  s"Valid units: ${DefinedUnits.Mass.mkString(", ")}, ${DefinedUnits.Length.mkString(", ")}",
               )
             }
           }
@@ -74,7 +74,7 @@ case class Converter() {
   }
 
   def validateUnitOfMass(
-    uom: UnitOfMeasurement
+    uom: UnitOfMeasurement,
   )(implicit label: String = uom.toString): Either[Seq[String], UnitOfMeasurement] = {
     if (DefinedUnits.Mass.contains(uom)) {
       Right(uom)
@@ -93,7 +93,7 @@ case class Converter() {
   }
 
   def validateUnitOfLength(
-    uom: UnitOfMeasurement
+    uom: UnitOfMeasurement,
   )(implicit label: String = uom.toString): Either[Seq[String], UnitOfMeasurement] = {
     if (DefinedUnits.Length.contains(uom)) {
       Right(uom)

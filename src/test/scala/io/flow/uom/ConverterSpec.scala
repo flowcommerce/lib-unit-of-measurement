@@ -12,12 +12,12 @@ class ConverterSpec extends AnyFunSpec with Matchers with Helpers {
   it("validateUnitOfMass") {
     validateError(
       "Invalid unit of mass[in]. Must be one of: gram, kilogram, ounce, pound",
-      converter.validateUnitOfMass("in")
+      converter.validateUnitOfMass("in"),
     )
 
     validateError(
       "Invalid unit of mass[inch]. Must be one of: gram, kilogram, ounce, pound",
-      converter.validateUnitOfMass(UnitOfMeasurement.Inch)
+      converter.validateUnitOfMass(UnitOfMeasurement.Inch),
     )
 
     rightOrErrors {
@@ -38,12 +38,12 @@ class ConverterSpec extends AnyFunSpec with Matchers with Helpers {
   it("validateUnitOfLength") {
     validateError(
       "Invalid unit of length[lb]. Must be one of: millimeter, centimeter, inch, foot, meter",
-      converter.validateUnitOfLength("lb")
+      converter.validateUnitOfLength("lb"),
     )
 
     validateError(
       "Invalid unit of length[pound]. Must be one of: millimeter, centimeter, inch, foot, meter",
-      converter.validateUnitOfLength(UnitOfMeasurement.Pound)
+      converter.validateUnitOfLength(UnitOfMeasurement.Pound),
     )
 
     rightOrErrors {
@@ -84,7 +84,7 @@ class ConverterSpec extends AnyFunSpec with Matchers with Helpers {
 
     validateError(
       "Invalid number[adslkfj]",
-      converter.validateBigDecimal("adslkfj")
+      converter.validateBigDecimal("adslkfj"),
     )
   }
 
@@ -93,11 +93,11 @@ class ConverterSpec extends AnyFunSpec with Matchers with Helpers {
 
     validateError(
       "Invalid value[0] - must be > 0",
-      converter.validatePositiveBigDecimal("0")
+      converter.validatePositiveBigDecimal("0"),
     )
     validateError(
       "Invalid value[-1] - must be > 0",
-      converter.validatePositiveBigDecimal("-1")
+      converter.validatePositiveBigDecimal("-1"),
     )
   }
 

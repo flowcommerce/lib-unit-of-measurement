@@ -11,7 +11,7 @@ trait Helpers {
 
   def validateError(
     message: String,
-    result: Either[Seq[String], Any]
+    result: Either[Seq[String], Any],
   ): Unit = {
     result match {
       case Left(errors) => {
