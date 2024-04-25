@@ -6,6 +6,12 @@ scalaVersion := "2.13.10"
 
 enablePlugins(GitVersioning)
 git.useGitDescribe := true
+coverageExcludedFiles := ".*\\/src/main/scala/io/generated\\/.*"
+coverageDataDir := file("target/scala-2.13")
+coverageHighlighting := true
+coverageFailOnMinimum := true
+coverageMinimumStmtTotal := 80
+coverageMinimumBranchTotal := 75
 
 lazy val allScalacOptions = Seq(
   "-feature",
