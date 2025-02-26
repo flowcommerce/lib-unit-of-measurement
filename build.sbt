@@ -2,7 +2,7 @@ name := "lib-unit-of-measurement"
 
 organization := "io.flow"
 
-scalaVersion := "2.13.15"
+scalaVersion := "2.13.16"
 
 enablePlugins(GitVersioning)
 git.useGitDescribe := true
