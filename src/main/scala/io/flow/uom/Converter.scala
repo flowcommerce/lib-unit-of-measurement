@@ -1,7 +1,7 @@
 package io.flow.uom
 
 import io.flow.common.v0.models.UnitOfMeasurement
-import io.flow.units.v0.models.{UnitOfLength, UnitOfWeight}
+import io.flow.units.v0.models.{UnitOfLength, UnitOfVolume, UnitOfWeight}
 
 import scala.math.BigDecimal.RoundingMode
 import scala.util.{Failure, Success, Try}
@@ -53,10 +53,21 @@ case class Converter() {
               }
             }
             case None => {
-              Left(
-                s"Conversion only available for units of mass and length. $amountUnits is not a measurement of mass nor length. " +
-                  s"Valid units: ${DefinedUnits.Mass.mkString(", ")}, ${DefinedUnits.Length.mkString(", ")}",
-              )
+
+              UnitOfVolume.fromString(amountUnits.toString) match {
+                case Some(volumeUnit) =>
+                  UnitOfVolume.fromString(targetUnits.toString) match {
+                    case None => Left(s"Cannot convert $amountUnits to $targetUnits")
+                    case Some(target) => Right(v2.Volume(amount, volumeUnit).convertTo(target).value)
+                  }
+                case None =>
+                  Left(
+                    s"Conversion only available for units of mass, length, and volume. $amountUnits is not a measurement of mass nor length nor volume. " +
+                      s"Valid units: ${DefinedUnits.Mass.mkString(", ")}, ${DefinedUnits.Length
+                          .mkString(", ")}, ${DefinedUnits.Volume.mkString(", ")}",
+                  )
+              }
+
             }
           }
         }
@@ -99,6 +110,23 @@ case class Converter() {
       Right(uom)
     } else {
       Left(Seq(errorMessage("length", label, DefinedUnits.Length)))
+    }
+  }
+
+  def validateUnitOfVolume(uom: String): Either[Seq[String], UnitOfMeasurement] = {
+    validateUnitOfMeasurement(uom) match {
+      case Left(errors) => Left(errors)
+      case Right(u) => validateUnitOfVolume(u)(uom.trim)
+    }
+  }
+
+  def validateUnitOfVolume(
+    uom: UnitOfMeasurement,
+  )(implicit label: String = uom.toString): Either[Seq[String], UnitOfMeasurement] = {
+    if (DefinedUnits.Volume.contains(uom)) {
+      Right(uom)
+    } else {
+      Left(Seq(errorMessage("volume", label, DefinedUnits.Volume)))
     }
   }
 

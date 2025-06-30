@@ -61,12 +61,33 @@ private[uom] object InternalUnitOfMeasurement {
         plural = "feet",
         aliases = Seq("ft"),
       )
+    case uom: UnitOfMeasurement.CubicFoot.type =>
+      InternalUnitOfVolume(
+        uom = uom,
+        singular = "cubic_foot",
+        plural = "cubic_feet",
+        aliases = Seq("cubic foot", "cubic feet"),
+      )
     case uom: UnitOfMeasurement.CubicInch.type =>
       InternalUnitOfVolume(
         uom = uom,
         singular = "cubic_inch",
         plural = "cubic_inches",
         aliases = Seq("cubic inch", "cubic inches"),
+      )
+    case uom: UnitOfMeasurement.CubicMillimeter.type =>
+      InternalUnitOfVolume(
+        uom = uom,
+        singular = "cubic_millimeter",
+        plural = "cubic_millimeters",
+        aliases = Seq("cubic millimeter", "cubic millimeters"),
+      )
+    case uom: UnitOfMeasurement.CubicCentimeter.type =>
+      InternalUnitOfVolume(
+        uom = uom,
+        singular = "cubic_centimeter",
+        plural = "cubic_centimeters",
+        aliases = Seq("cubic centimeter", "cubic centimeters"),
       )
     case uom: UnitOfMeasurement.CubicMeter.type =>
       InternalUnitOfVolume(
