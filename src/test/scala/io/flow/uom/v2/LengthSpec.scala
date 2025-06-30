@@ -14,6 +14,7 @@ class LengthSpec extends AnyFunSpec with Matchers with Helpers {
     Length(1000, Millimeter).convertTo(Foot) should be(Length(3.28084, Foot))
     Length(6, Foot).convertTo(Millimeter) should be(Length(1828.8, Millimeter))
     Length(1, Foot).convertTo(Centimeter) should be(Length(30.48, Centimeter))
+    Length(1000, Millimeter).convertTo(Meter) should be(Length(1.0, Meter))
   }
 
   it("Exactly convertTo") {

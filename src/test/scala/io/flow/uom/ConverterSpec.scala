@@ -61,6 +61,29 @@ class ConverterSpec extends AnyFunSpec with Matchers with Helpers {
     }
   }
 
+  it("validateUnitOfVolume") {
+
+    validateError(
+      "Invalid unit of volume[lb]. Must be one of: cubic_inch, cubic_foot, cubic_millimeter, cubic_centimeter, cubic_meter",
+      converter.validateUnitOfVolume("lb"),
+    )
+
+    validateError(
+      "Invalid unit of volume[pound]. Must be one of: cubic_inch, cubic_foot, cubic_millimeter, cubic_centimeter, cubic_meter",
+      converter.validateUnitOfVolume(UnitOfMeasurement.Pound),
+    )
+
+    DefinedUnits.Volume.foreach { uom =>
+      rightOrErrors {
+        converter.validateUnitOfVolume(uom)
+      } should equal(uom)
+
+      rightOrErrors {
+        converter.validateUnitOfVolume(uom.toString)
+      } should equal(uom)
+    }
+  }
+
   it("validateUnitOfMeasurement") {
     rightOrErrors {
       converter.validateUnitOfMeasurement("mm")
@@ -111,6 +134,8 @@ class ConverterSpec extends AnyFunSpec with Matchers with Helpers {
     converter.convert(2, UnitOfMeasurement.Inch, UnitOfMeasurement.Millimeter) should be(Right(50.8))
     converter.convert(1000, UnitOfMeasurement.Millimeter, UnitOfMeasurement.Foot) should be(Right(3.28084))
     converter.convert(6, UnitOfMeasurement.Foot, UnitOfMeasurement.Millimeter) should be(Right(1828.8))
+    converter.convert(2, UnitOfMeasurement.CubicCentimeter, UnitOfMeasurement.CubicMillimeter) should be(Right(2000))
+    converter.convert(2, UnitOfMeasurement.CubicFoot, UnitOfMeasurement.CubicInch) should be(Right(3456))
   }
 
   it("Exactly converts") {
@@ -146,12 +171,20 @@ class ConverterSpec extends AnyFunSpec with Matchers with Helpers {
     converter.plural(UnitOfMeasurement.Pound) should equal("pounds")
     converter.plural(UnitOfMeasurement.Gram) should equal("grams")
     converter.plural(UnitOfMeasurement.CubicInch) should equal("cubic_inches")
+    converter.plural(UnitOfMeasurement.CubicFoot) should equal("cubic_feet")
+    converter.plural(UnitOfMeasurement.CubicMillimeter) should equal("cubic_millimeters")
+    converter.plural(UnitOfMeasurement.CubicCentimeter) should equal("cubic_centimeters")
+    converter.plural(UnitOfMeasurement.CubicMeter) should equal("cubic_meters")
   }
 
   it("singular") {
     converter.singular(UnitOfMeasurement.Pound) should equal("pound")
     converter.singular(UnitOfMeasurement.Gram) should equal("gram")
     converter.singular(UnitOfMeasurement.CubicInch) should equal("cubic_inch")
+    converter.singular(UnitOfMeasurement.CubicFoot) should equal("cubic_foot")
+    converter.singular(UnitOfMeasurement.CubicMillimeter) should equal("cubic_millimeter")
+    converter.singular(UnitOfMeasurement.CubicCentimeter) should equal("cubic_centimeter")
+    converter.singular(UnitOfMeasurement.CubicMeter) should equal("cubic_meter")
   }
 
   it("pluralize") {
