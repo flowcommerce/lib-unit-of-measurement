@@ -32,7 +32,7 @@ lazy val root = project
     scalafmtOnCompile := true,
     scalacOptions ++= allScalacOptions,
     libraryDependencies ++= Seq(
-      "joda-time" % "joda-time" % "2.12.7",
+      "joda-time" % "joda-time" % "2.14.0",
       "org.joda" % "joda-convert" % "3.0.1",
       "org.scalatest" %% "scalatest" % "3.2.18" % Test,
       "org.scalatest" %% "scalatest-funspec" % "3.2.19" % Test,
